@@ -5,5 +5,9 @@ This includes a lot of Facebook data, including Messenger (chat) messages.
 
 fddp is an experiment about doing some data mining on these Facebook messages.
 
-You can aquired your archive on (Facebook settings page)[https://www.facebook.com/settings],
+You can aquired your archive on [Facebook settings page](https://www.facebook.com/settings),
 it is at the end under "Download a copy of your Facebook data", then follow the steps.
+
+---
+
+The coding quality is pretty terrible right now. The aim is getting it working first. I'm pretty bad at Go but I love it
