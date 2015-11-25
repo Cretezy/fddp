@@ -11,6 +11,8 @@ it is at the end under "Download a copy of your Facebook data", then follow the 
 
 Once you have this zip file, open it and place the `messages.htm` inside the `personal` folder  
 
+> I have crafted a sample (under `samples/sample.html`) that is identical to the format that Facebook uses to distribute the `messages.htm`. This is an easier way to get started then download your FB archive but is way less populated.
+
 ## Setup
 `fddp` uses [`gopm`](https://github.com/gpmgo/gopm) for dependency management.
 
@@ -21,6 +23,14 @@ cd fddp
 gopm build
 ```
 
+You can then run it with:
+```
+gopm build && ./output personal/messages.htm | less
+```
+
+You can also output json to a file using `--json`, or silence it using `--quiet`
+
+## Notes
 The coding quality is pretty terrible right now. The aim is getting it working first. I'm pretty bad at Go but I love it
 
-I have crafted a sample (under `samples/sample.html`) that is identical to the format that Facebook uses to distribute the `messages.htm`. This is an easier way to get started then download your FB archive but is way less populated.
+Running with ~350k messages from my Facebook runs in about 6 seconds on an average-high desktop computer.

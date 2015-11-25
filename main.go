@@ -8,7 +8,14 @@ import (
 	"strings"
 	"time"
 	"sort"
+	"encoding/json"
+	"io/ioutil"
 )
+
+var quiet bool
+var jsonFile string
+
+var threads []Thread
 func main() {
 	// Calculate running time, useful to know perfomance
 	start := time.Now()
@@ -16,13 +23,30 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "fddp"
 	app.Usage = "Facebook Downloaded Data Processor"
-	app.Action = run
+	app.Action = func(c *cli.Context) {
+		quiet = c.Bool("quiet")
+		jsonFile = c.String("json")
+		run(c)
+	}
+
+	app.Flags = []cli.Flag{
+		cli.StringFlag{
+			Name: "json",
+			Value: "",
+			Usage: "where to output json",
+		},
+		cli.BoolFlag{
+			Name: "quiet, q",
+			Usage: "show no output",
+		},
+	}
 
 	app.Run(os.Args)
 
 	// Calculate time
 	elapsed := time.Since(start)
 	fmt.Println("Took", elapsed)
+
 }
 
 func check(e error) {
@@ -42,9 +66,11 @@ func run(c *cli.Context) {
 	check(err)
 
 
-	threads := make([]Thread, 0)
+	threads = make([]Thread, 0)
 
 	whoami := doc.Find("h1").Text()
+	// Mon Jan 2 15:04:05 MST 2006
+	form := "Monday, 2 January 2006 at 15:04 MST"
 
 	doc.Find(".thread").Each(func(threadId int, threadSelector *goquery.Selection) {
 		// People in this thread
@@ -54,18 +80,21 @@ func run(c *cli.Context) {
 		messages := make([]Message, 0)
 
 		sender := ""
+		sentTime := time.Now()
 
 		threadSelector.Children().Each(func(someId int, someSelector *goquery.Selection) {
 			nodeType := someSelector.Nodes[0].Data
 
 			if nodeType == "div" {
 				sender = someSelector.Find(".message_header").Find(".user").Text()
+				sentTime, err = time.Parse(form, someSelector.Find(".message_header").Find(".meta").Text())
+				check(err)
 			} else if nodeType == "p" {
-				message := Message{sender: sender, text: someSelector.Text()}
+				message := Message{Sender: sender, Text: someSelector.Text(), Time: sentTime}
 				messages = append(messages, message)
 			}
 		})
-		addToThread(&threads, persons, messages)
+		addToThread(persons, messages)
 	})
 
 	// Sort by highest messages
@@ -76,31 +105,42 @@ func run(c *cli.Context) {
 	}
 
 	// Print amount of messages
-	fmt.Println("You are", whoami)
-	fmt.Println("You have messaged", len(threads), "people")
+	if !quiet {
+		fmt.Println("You are", whoami)
+		fmt.Println("You have messaged", len(threads), "people")
 
-	// Print list of conversations and how much messages
-	for _, thread := range threads {
-		fmt.Println("The conversation between", strings.Join(thread.persons, " and "), "has", len(thread.messages), "messages")
+		// Print list of conversations and how much messages
+		for _, thread := range threads {
+			fmt.Println("The conversation between", strings.Join(thread.Persons, " and "), "has", len(thread.Messages), "messages")
+		}
 	}
+	if jsonFile != "" {
+		json, err := json.Marshal(threads);
+		check(err)
+		err = ioutil.WriteFile(jsonFile, json, 0644)
+		check(err)
+	}
+
+
 }
 
-func addToThread(threads *[]Thread, persons []string, messages []Message) {
+func addToThread( persons []string, messages []Message) {
 	newThreads := make([]Thread, 0)
 	var newThread Thread
-	for _, thread := range *threads {
-		if matchingPersons(persons, thread.persons) {
+	for _, thread := range threads {
+		if matchingPersons(persons, thread.Persons) {
 			newThread = thread
 		} else {
 			newThreads = append(newThreads, thread)
 		}
 	}
-	if len(newThread.persons) < 1 {
-		newThread = Thread{persons: persons, messages: make([]Message, 0)}
+
+	if len(newThread.Persons) < 1 {
+		newThread = Thread{Persons: persons, Messages: make([]Message, 0)}
 	}
 
-	newThread.messages = append(newThread.messages, messages...)
-	*threads = append(newThreads, newThread)
+	newThread.Messages = append(newThread.Messages, messages...)
+	threads = append(newThreads, newThread)
 }
 
 // Get if 2 slices of people's name match, order doesn't matter

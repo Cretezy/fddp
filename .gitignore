@@ -3,6 +3,9 @@
 /personal/*
 !/personal/.gitkeep
 
+# output.json
+/output.json
+
 # gopm
 /.vendor
 
