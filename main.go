@@ -1,9 +1,7 @@
 package main
-
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/PuerkitoBio/goquery"
 	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
 	"io/ioutil"
 	"os"
@@ -14,8 +12,6 @@ import (
 
 var quiet bool
 var jsonFile string
-
-var threads []Thread
 
 func main() {
 	// Calculate running time, useful to know perfomance
@@ -28,6 +24,26 @@ func main() {
 		quiet = c.Bool("quiet")
 		jsonFile = c.String("json")
 		run(c)
+	}
+
+	app.Commands = []cli.Command{
+		cli.Command{
+			Name: "convert",
+			Description: "convert messages from one data holder to another (i.e.: html to json)",
+			// fddp convert --fromHtml messages.htm --toJson messages.json
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name: "fromHtml, fH",
+				},
+				cli.StringFlag{
+					Name: "fromJson, fJ",
+				},
+				cli.StringFlag{
+					Name: "toJson, tJ",
+				},
+			},
+			Action: convert,
+		},
 	}
 
 	app.Flags = []cli.Flag{
@@ -62,40 +78,7 @@ func run(c *cli.Context) {
 		return
 	}
 
-	reader, err := os.Open(c.Args().First())
-	doc, err := goquery.NewDocumentFromReader(reader)
-	check(err)
-
-	threads = make([]Thread, 0)
-
-	whoami := doc.Find("h1").Text()
-	// Mon Jan 2 15:04:05 MST 2006
-	form := "Monday, 2 January 2006 at 15:04 MST"
-
-	doc.Find(".thread").Each(func(threadId int, threadSelector *goquery.Selection) {
-		// People in this thread
-		persons := strings.Split(strings.TrimSpace(threadSelector.Nodes[0].FirstChild.Data), ", ")
-
-		// List of message in this thread
-		messages := make([]Message, 0)
-
-		sender := ""
-		sentTime := time.Now()
-
-		threadSelector.Children().Each(func(someId int, someSelector *goquery.Selection) {
-			nodeType := someSelector.Nodes[0].Data
-
-			if nodeType == "div" {
-				sender = someSelector.Find(".message_header").Find(".user").Text()
-				sentTime, err = time.Parse(form, someSelector.Find(".message_header").Find(".meta").Text())
-				check(err)
-			} else if nodeType == "p" {
-				message := Message{Sender: sender, Text: someSelector.Text(), Time: sentTime}
-				messages = append(messages, message)
-			}
-		})
-		addToThread(persons, messages)
-	})
+	threads := FromHtml(c.Args().First())
 
 	// Sort by highest messages
 	sort.Sort(ByMessage(threads))
@@ -106,7 +89,7 @@ func run(c *cli.Context) {
 
 	// Print amount of messages
 	if !quiet {
-		fmt.Println("You are", whoami)
+		//fmt.Println("You are", whoami)
 		fmt.Println("You have messaged", len(threads), "people")
 
 		// Print list of conversations and how much messages
@@ -121,39 +104,11 @@ func run(c *cli.Context) {
 		check(err)
 	}
 
-	var words int
-	var messages int
 
-	for _, thread := range threads {
-		messages += len(thread.Messages)
-		for _, message := range thread.Messages {
-			words += len(strings.Split(message.Text, " "))
-		}
-	}
-
-	fmt.Println("Words total", words, "Total messages", messages, "Average words/message", words/messages)
-}
-
-func addToThread(persons []string, messages []Message) {
-	newThreads := make([]Thread, 0)
-	var newThread Thread
-	for _, thread := range threads {
-		if matchingPersons(persons, thread.Persons) {
-			newThread = thread
-		} else {
-			newThreads = append(newThreads, thread)
-		}
-	}
-
-	if len(newThread.Persons) < 1 {
-		newThread = Thread{Persons: persons, Messages: make([]Message, 0)}
-	}
-
-	newThread.Messages = append(newThread.Messages, messages...)
-	threads = append(newThreads, newThread)
 }
 
 // Get if 2 slices of people's name match, order doesn't matter
+// Not by me
 func matchingPersons(persons1 []string, persons2 []string) bool {
 	diffStr := []string{}
 	m := map[string]int{}
@@ -181,4 +136,34 @@ func contains(slice []string, contain string) bool {
 		}
 	}
 	return false
+}
+
+func fixThreads(threads []Thread) []Thread {
+	newThreads := make([]Thread, 0)
+	persons := make([][]string, 0)
+
+	for _, thread := range threads {
+		skip := false
+		for _, personCheck := range persons {
+			if (matchingPersons(personCheck, thread.Persons)) {
+				skip = true
+				break
+			}
+		}
+		if (skip) {
+			continue
+		}
+		persons = append(persons, thread.Persons)
+
+		newThread := Thread{Persons:thread.Persons, Messages:make([]Message, 0)}
+
+		for _, otherThread := range threads {
+			if (matchingPersons(thread.Persons, otherThread.Persons)) {
+				newThread.Messages = append(newThread.Messages, otherThread.Messages...)
+			}
+		}
+		newThreads = append(newThreads, newThread)
+	}
+
+	return newThreads
 }
