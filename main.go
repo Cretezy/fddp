@@ -1,17 +1,26 @@
 package main
-import (
-	"github.com/PuerkitoBio/goquery"
-	"fmt"
-	"os"
-	"time"
-	"strings"
-)
 
+import (
+	"fmt"
+	"github.com/PuerkitoBio/goquery"
+	"github.com/codegangsta/cli"
+	"os"
+	"strings"
+	"time"
+	"sort"
+)
 func main() {
+	// Calculate running time, useful to know perfomance
 	start := time.Now()
 
-	run()
+	app := cli.NewApp()
+	app.Name = "fddp"
+	app.Usage = "Facebook Downloaded Data Processor"
+	app.Action = run
 
+	app.Run(os.Args)
+
+	// Calculate time
 	elapsed := time.Since(start)
 	fmt.Println("Took", elapsed)
 }
@@ -22,129 +31,94 @@ func check(e error) {
 	}
 }
 
-type Message struct {
-	sender string
-	text   string
-}
-type Thread struct {
-	messages []Message
-	persons  []string
-}
+func run(c *cli.Context) {
+	if len(c.Args()) < 1 {
+		fmt.Println("Must supply message file. Example: samples/sample.html")
+		return
+	}
 
-func run() {
-
-	reader, err := os.Open("samples/messages.htm")
+	reader, err := os.Open(c.Args().First())
 	doc, err := goquery.NewDocumentFromReader(reader)
 	check(err)
 
+
 	threads := make([]Thread, 0)
 
-	//whoami := doc.Find("h1").Text()
+	whoami := doc.Find("h1").Text()
 
 	doc.Find(".thread").Each(func(threadId int, threadSelector *goquery.Selection) {
+		// People in this thread
 		persons := strings.Split(strings.TrimSpace(threadSelector.Nodes[0].FirstChild.Data), ", ")
-		if (len(persons) < 2) {
-			// TODO: Talking to self, may work
 
-		}else if (len(persons) > 2) {
-			// TODO: Group convo, may work
+		// List of message in this thread
+		messages := make([]Message, 0)
 
-		}
+		sender := ""
 
-		//findOthers(&persons, whoami)
-		messages:=make([]Message, 0)
-		who := ""
 		threadSelector.Children().Each(func(someId int, someSelector *goquery.Selection) {
 			nodeType := someSelector.Nodes[0].Data
-			class, _ := someSelector.Attr("class");
 
-			if (nodeType == "div" && class == "message") {
-				who = someSelector.Find(".message_header").Find(".user").Text()
-			}else if (nodeType == "p") {
-				message := Message{sender: who, text: someSelector.Text()}
+			if nodeType == "div" {
+				sender = someSelector.Find(".message_header").Find(".user").Text()
+			} else if nodeType == "p" {
+				message := Message{sender: sender, text: someSelector.Text()}
 				messages = append(messages, message)
 			}
 		})
-		findThreadAndEdit(persons, &threads, messages)
-
+		addToThread(&threads, persons, messages)
 	})
 
-	threads = qsort(threads)
+	// Sort by highest messages
+	sort.Sort(ByMessage(threads))
+	// Reverse (top = more)
+	for i, j := 0, len(threads) - 1; i < j; i, j = i + 1, j - 1 {
+		threads[i], threads[j] = threads[j], threads[i]
+	}
+
 	// Print amount of messages
+	fmt.Println("You are", whoami)
+
+	// Print list of conversations and how much messages
 	for _, thread := range threads {
-		fmt.Println(strings.Join(thread.persons, ", "), len(thread.messages))
+		fmt.Println("The conversation between", strings.Join(thread.persons, " and "), "has", len(thread.messages), "messages")
 	}
 }
 
-func findThreadAndEdit(persons []string, threads *[]Thread, messages []Message) {
-	threadslol := make([]Thread, 0)
-	var threadX *Thread
+func addToThread(threads *[]Thread, persons []string, messages []Message) {
+	newThreads := make([]Thread, 0)
+	var newThread Thread
 	for _, thread := range *threads {
-		if (matchingPersons(persons, thread.persons)) {
-
-			//fmt.Println("found", persons)
-			threadX = &thread
-		}else{
-			threadslol =append( threadslol, thread)
+		if matchingPersons(persons, thread.persons) {
+			newThread = thread
+		} else {
+			newThreads = append(newThreads, thread)
 		}
 	}
-	if(threadX==nil) {
-		//fmt.Println("new", persons)
-		threadX = &Thread{persons: persons, messages: make([]Message, 0)}
-		*threads = append(*threads, *threadX)
+	if len(newThread.persons) < 1 {
+		newThread = Thread{persons: persons, messages: make([]Message, 0)}
 	}
 
-	threadX.messages = append(threadX.messages, messages...)
-	threadslol = append( threadslol, *threadX)
-	*threads = threadslol
+	newThread.messages = append(newThread.messages, messages...)
+	*threads = append(newThreads, newThread)
 }
 
+// Get if 2 slices of people's name match, order doesn't matter
 func matchingPersons(persons1 []string, persons2 []string) bool {
+	diffStr := []string{}
+	m := map[string]int{}
 
-	return containsAll(persons1, persons2) && containsAll(persons2, persons1)
-}
-func containsAll(slice1 []string, slice2 []string) bool {
-	for _, parent := range slice1 {
-		has := false
-		for _, child := range slice2 {
-			if (parent == child) {
-				has = true
-				break
-			}
-		}
-		if (!has) {
-			return false
-		}
+	for _, s1Val := range persons1 {
+		m[s1Val] = 1
 	}
-	return true;
-}
+	for _, s2Val := range persons2 {
+		m[s2Val] = m[s2Val] + 1
+	}
 
-func qsort(threads []Thread) []Thread {
-	if len(threads) < 2 { return threads }
-
-	left, right := 0, len(threads) - 1
-
-	// Pick a pivot
-	pivotIndex := (len(threads) + (len(threads)%2))/2
-
-	// Move the pivot to the right
-	threads[pivotIndex], threads[right] = threads[right], threads[pivotIndex]
-
-	// Pile elements smaller than the pivot on the left
-	for i := range threads {
-		if len(threads[i].messages) < len(threads[right].messages) {
-			threads[i], threads[left] = threads[left], threads[i]
-			left++
+	for mKey, mVal := range m {
+		if mVal == 1 {
+			diffStr = append(diffStr, mKey)
 		}
 	}
 
-	// Place the pivot after the last smaller element
-	threads[left], threads[right] = threads[right], threads[left]
-
-	// Go down the rabbit hole
-	qsort(threads[:left])
-	qsort(threads[left + 1:])
-
-
-	return threads
+	return len(diffStr) == 0
 }
