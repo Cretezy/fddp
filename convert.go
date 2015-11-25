@@ -17,7 +17,7 @@ func convert(c *cli.Context) {
 		fmt.Println("You must give a input file using --fromHtml or --fromJson")
 		return
 	}
-	
+
 	// Figure out input
 	var data FacebookData
 	if (c.String("fromHtml") != "") {

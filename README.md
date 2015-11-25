@@ -23,12 +23,12 @@ cd fddp
 
 You can then run it with:
 ```
-go build && ./fddp samples/sample.htm | less
+go build && ./fddp convert --fromHtml samples/sample.html --toJson samples/sample.json
 ```
+This will turn samples.html to Json format and save it.
 
-You can also output json to a file using `--json`, or silence it using `--quiet`
+
+You can use `--fromHtml` and `--fromJson` for input, and `--toJson` for output. More coming soon
 
 ## Notes
-The coding quality is pretty terrible right now. The aim is getting it working first. I'm pretty bad at Go but I love it
-
-Running with ~350k messages from my Facebook runs in about 6 seconds on an average-high desktop computer.
+Running with ~350k messages from my Facebook runs in about 6 seconds on an average-high desktop computer (with SSD).
