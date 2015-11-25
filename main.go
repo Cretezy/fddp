@@ -77,6 +77,7 @@ func run(c *cli.Context) {
 
 	// Print amount of messages
 	fmt.Println("You are", whoami)
+	fmt.Println("You have messaged", len(threads), "people")
 
 	// Print list of conversations and how much messages
 	for _, thread := range threads {

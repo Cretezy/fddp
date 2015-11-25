@@ -1,8 +1,16 @@
-# Custom
+### Custom
+# Personal message sample
 /personal/*
 !/personal/.gitkeep
 
+# gopm
+/.vendor
+
+## Binary
+/output
 /fddp
+
+
 # Created by https://www.gitignore.io/api/intellij,go,linux,osx,windows
 
 ### Intellij ###
