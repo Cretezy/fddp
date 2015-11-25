@@ -1,13 +1,10 @@
 ### Custom
 # Personal message sample
 /personal/*
-!/personal/.gitkeep
+!/personal/README.md
 
 # output.json
 /output.json
-
-# gopm
-/.vendor
 
 ## Binary
 /output
