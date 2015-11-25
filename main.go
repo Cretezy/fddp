@@ -1,12 +1,8 @@
 package main
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
-	"io/ioutil"
 	"os"
-	"sort"
-	"strings"
 	"time"
 )
 
@@ -20,11 +16,6 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "fddp"
 	app.Usage = "Facebook Downloaded Data Processor"
-	app.Action = func(c *cli.Context) {
-		quiet = c.Bool("quiet")
-		jsonFile = c.String("json")
-		run(c)
-	}
 
 	app.Commands = []cli.Command{
 		cli.Command{
@@ -46,18 +37,6 @@ func main() {
 		},
 	}
 
-	app.Flags = []cli.Flag{
-		cli.StringFlag{
-			Name:  "json",
-			Value: "",
-			Usage: "where to output json",
-		},
-		cli.BoolFlag{
-			Name:  "quiet, q",
-			Usage: "show no output",
-		},
-	}
-
 	app.Run(os.Args)
 
 	// Calculate time
@@ -73,37 +52,6 @@ func check(e error) {
 }
 
 func run(c *cli.Context) {
-	if len(c.Args()) < 1 {
-		fmt.Println("Must supply message file. Example: samples/sample.html")
-		return
-	}
-
-	threads := FromHtml(c.Args().First())
-
-	// Sort by highest messages
-	sort.Sort(ByMessage(threads))
-	// Reverse (top = more)
-	for i, j := 0, len(threads)-1; i < j; i, j = i+1, j-1 {
-		threads[i], threads[j] = threads[j], threads[i]
-	}
-
-	// Print amount of messages
-	if !quiet {
-		//fmt.Println("You are", whoami)
-		fmt.Println("You have messaged", len(threads), "people")
-
-		// Print list of conversations and how much messages
-		for _, thread := range threads {
-			fmt.Println("The conversation between", strings.Join(thread.Persons, " and "), "has", len(thread.Messages), "messages")
-		}
-	}
-	if jsonFile != "" {
-		json, err := json.Marshal(threads)
-		check(err)
-		err = ioutil.WriteFile(jsonFile, json, 0644)
-		check(err)
-	}
-
 
 }
 
@@ -136,34 +84,4 @@ func contains(slice []string, contain string) bool {
 		}
 	}
 	return false
-}
-
-func fixThreads(threads []Thread) []Thread {
-	newThreads := make([]Thread, 0)
-	persons := make([][]string, 0)
-
-	for _, thread := range threads {
-		skip := false
-		for _, personCheck := range persons {
-			if (matchingPersons(personCheck, thread.Persons)) {
-				skip = true
-				break
-			}
-		}
-		if (skip) {
-			continue
-		}
-		persons = append(persons, thread.Persons)
-
-		newThread := Thread{Persons:thread.Persons, Messages:make([]Message, 0)}
-
-		for _, otherThread := range threads {
-			if (matchingPersons(thread.Persons, otherThread.Persons)) {
-				newThread.Messages = append(newThread.Messages, otherThread.Messages...)
-			}
-		}
-		newThreads = append(newThreads, newThread)
-	}
-
-	return newThreads
 }

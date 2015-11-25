@@ -1,35 +1,41 @@
 package main
 import (
-"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
-"strings"
+	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
 	"fmt"
 	"io/ioutil"
+	"encoding/json"
 )
 
 func convert(c *cli.Context) {
-	// figure out input
-	var threads []Thread
-	if(c.String("fromHtml") != ""){
-		threads = FromHtml(GetFileContent(c.String("fromHtml")))
-	}else if(c.String("fromJson") != "") {
-		threads = FromJson(GetFileContent(c.String("fromJson")))
-	}else{
-		threads = make([]Thread, 0)
+	// Check that a data input is given
+	if (c.String("fromHtml") != "" && c.String("fromJson") != "") {
+		// Both are given
+		fmt.Println("You cannot give 2 sources of input.")
+		return
+	}else if(c.String("fromHtml") == "" && c.String("fromJson") == ""){
+		// None are given
+		fmt.Println("You must give a input file using --fromHtml or --fromJson")
+		return
+	}
+	
+	// Figure out input
+	var data FacebookData
+	if (c.String("fromHtml") != "") {
+		data = FromHtml(GetFileContent(c.String("fromHtml")))
+	}else if (c.String("fromJson") != "") {
+		data = FromJson(GetFileContent(c.String("fromJson")))
 	}
 
-	var words int = 0
-	var messages int = 0
-
-	for _, thread := range threads {
-		messages += len(thread.Messages)
-		for _, message := range thread.Messages {
-			words += len(strings.Split(message.Text, " "))
-		}
+	if !quiet {
+		ShowStats(&data)
 	}
-	if(messages == 0){messages++}
 
-	fmt.Println("Words total", words, "Total messages", messages, "Average words/message", words/messages)
-
+	if (c.String("toJson") != "") {
+		jsonData, err := json.Marshal(data)
+		check(err)
+		err = ioutil.WriteFile(c.String("toJson"), jsonData, 0644)
+		check(err)
+	}
 }
 
 func GetFileContent(file string) string {
@@ -40,4 +46,6 @@ func GetFileContent(file string) string {
 	return string(reader)
 }
 
-
+func ShowStats(data *FacebookData) {
+	fmt.Println("Total messages", data.CountMessages())
+}

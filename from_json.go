@@ -3,11 +3,11 @@ import (
 	"encoding/json"
 )
 
-func FromJson(jsonData string) []Thread {
+func FromJson(jsonData string) FacebookData {
 	// Get from json
-	var threads []Thread
-	err := json.Unmarshal([]byte(jsonData), &threads)
+	var data FacebookData
+	err := json.Unmarshal([]byte(jsonData), &data)
 	check(err)
 
-	return threads
+	return data
 }
