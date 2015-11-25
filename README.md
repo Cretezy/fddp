@@ -11,7 +11,15 @@ it is at the end under "Download a copy of your Facebook data", then follow the 
 
 Once you have this zip file, open it and place the `messages.htm` inside the `personal` folder  
 
----
+## Setup
+`fddp` uses [`gopm`](https://github.com/gpmgo/gopm) for dependency management.
+
+```
+go get -u github.com/gpmgo/gopm
+git clone https://github.com/CraftThatBlock/fddp.git
+cd fddp
+gopm build
+```
 
 The coding quality is pretty terrible right now. The aim is getting it working first. I'm pretty bad at Go but I love it
 
