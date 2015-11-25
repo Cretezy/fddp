@@ -1,7 +1,0 @@
-[deps]
-github.com/PuerkitoBio/goquery = 
-github.com/codegangsta/cli = 
-
-[res]
-include = 
-

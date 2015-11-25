@@ -1,21 +1,22 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"github.com/PuerkitoBio/goquery"
-	"github.com/codegangsta/cli"
+	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/PuerkitoBio/goquery"
+	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
+	"io/ioutil"
 	"os"
+	"sort"
 	"strings"
 	"time"
-	"sort"
-	"encoding/json"
-	"io/ioutil"
 )
 
 var quiet bool
 var jsonFile string
 
 var threads []Thread
+
 func main() {
 	// Calculate running time, useful to know perfomance
 	start := time.Now()
@@ -31,12 +32,12 @@ func main() {
 
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
-			Name: "json",
+			Name:  "json",
 			Value: "",
 			Usage: "where to output json",
 		},
 		cli.BoolFlag{
-			Name: "quiet, q",
+			Name:  "quiet, q",
 			Usage: "show no output",
 		},
 	}
@@ -64,7 +65,6 @@ func run(c *cli.Context) {
 	reader, err := os.Open(c.Args().First())
 	doc, err := goquery.NewDocumentFromReader(reader)
 	check(err)
-
 
 	threads = make([]Thread, 0)
 
@@ -100,7 +100,7 @@ func run(c *cli.Context) {
 	// Sort by highest messages
 	sort.Sort(ByMessage(threads))
 	// Reverse (top = more)
-	for i, j := 0, len(threads) - 1; i < j; i, j = i + 1, j - 1 {
+	for i, j := 0, len(threads)-1; i < j; i, j = i+1, j-1 {
 		threads[i], threads[j] = threads[j], threads[i]
 	}
 
@@ -115,7 +115,7 @@ func run(c *cli.Context) {
 		}
 	}
 	if jsonFile != "" {
-		json, err := json.Marshal(threads);
+		json, err := json.Marshal(threads)
 		check(err)
 		err = ioutil.WriteFile(jsonFile, json, 0644)
 		check(err)
@@ -125,17 +125,16 @@ func run(c *cli.Context) {
 	var messages int
 
 	for _, thread := range threads {
-		messages+=len(thread.Messages)
+		messages += len(thread.Messages)
 		for _, message := range thread.Messages {
-			words+=len(strings.Split(message.Text, " "))
+			words += len(strings.Split(message.Text, " "))
 		}
 	}
-
 
 	fmt.Println("Words total", words, "Total messages", messages, "Average words/message", words/messages)
 }
 
-func addToThread( persons []string, messages []Message) {
+func addToThread(persons []string, messages []Message) {
 	newThreads := make([]Thread, 0)
 	var newThread Thread
 	for _, thread := range threads {
@@ -175,9 +174,9 @@ func matchingPersons(persons1 []string, persons2 []string) bool {
 	return len(diffStr) == 0
 }
 
-func contains(slice []string, contain string) bool{
-	for _, element := range slice{
-		if(element == contain){
+func contains(slice []string, contain string) bool {
+	for _, element := range slice {
+		if element == contain {
 			return true
 		}
 	}

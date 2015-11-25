@@ -14,18 +14,16 @@ Once you have this zip file, open it and place the `messages.htm` inside the `pe
 > I have crafted a sample (under `samples/sample.html`) that is identical to the format that Facebook uses to distribute the `messages.htm`. This is an easier way to get started then download your FB archive but is way less populated.
 
 ## Setup
-`fddp` uses [`gopm`](https://github.com/gpmgo/gopm) for dependency management.
+`fddp` uses [godep](https://github.com/tools/godep) for dependency management. It is not required to run.
 
 ```
-go get -u github.com/gpmgo/gopm
 git clone https://github.com/CraftThatBlock/fddp.git
 cd fddp
-gopm build
 ```
 
 You can then run it with:
 ```
-gopm build && ./output personal/messages.htm | less
+go build && ./fddp samples/sample.htm | less
 ```
 
 You can also output json to a file using `--json`, or silence it using `--quiet`
