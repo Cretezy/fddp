@@ -121,7 +121,18 @@ func run(c *cli.Context) {
 		check(err)
 	}
 
+	var words int
+	var messages int
 
+	for _, thread := range threads {
+		messages+=len(thread.Messages)
+		for _, message := range thread.Messages {
+			words+=len(strings.Split(message.Text, " "))
+		}
+	}
+
+
+	fmt.Println("Words total", words, "Total messages", messages, "Average words/message", words/messages)
 }
 
 func addToThread( persons []string, messages []Message) {
@@ -162,4 +173,13 @@ func matchingPersons(persons1 []string, persons2 []string) bool {
 	}
 
 	return len(diffStr) == 0
+}
+
+func contains(slice []string, contain string) bool{
+	for _, element := range slice{
+		if(element == contain){
+			return true
+		}
+	}
+	return false
 }
