@@ -3,6 +3,7 @@ import (
 	"encoding/json"
 )
 
+// Converts data from Json to FacebookData
 func FromJson(jsonData string) FacebookData {
 	// Get from json
 	var data FacebookData

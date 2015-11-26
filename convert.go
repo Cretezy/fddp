@@ -6,46 +6,34 @@ import (
 	"encoding/json"
 )
 
-func convert(c *cli.Context) {
-	// Check that a data input is given
-	if (c.String("fromHtml") != "" && c.String("fromJson") != "") {
-		// Both are given
-		fmt.Println("You cannot give 2 sources of input.")
-		return
-	}else if(c.String("fromHtml") == "" && c.String("fromJson") == ""){
-		// None are given
-		fmt.Println("You must give a input file using --fromHtml or --fromJson")
-		return
-	}
-
+func Convert(c *cli.Context) {
 	// Figure out input
-	var data FacebookData
-	if (c.String("fromHtml") != "") {
-		data = FromHtml(GetFileContent(c.String("fromHtml")))
-	}else if (c.String("fromJson") != "") {
-		data = FromJson(GetFileContent(c.String("fromJson")))
+	if (len(c.Args()) < 2) {
+		cli.ShowCommandHelp(c, c.Command.Name)
+		return
 	}
 
-	if !quiet {
-		ShowStats(&data)
-	}
+	htmlFile := c.Args()[0]
+	jsonFile := c.Args()[1]
 
-	if (c.String("toJson") != "") {
-		jsonData, err := json.Marshal(data)
-		check(err)
-		err = ioutil.WriteFile(c.String("toJson"), jsonData, 0644)
-		check(err)
-	}
-}
+	// Get FacebookData from Html file
+	data := FromHtml(GetFileContent(htmlFile))
 
-func GetFileContent(file string) string {
-	// Open the file
-	reader, err := ioutil.ReadFile(file)
+	// Turn it into Json
+	var jsonData []byte
+	var err error
+	if (c.Bool("indent")) {
+		// Can enable indentation using --indent (or -i),
+		// however it uses more space
+		jsonData, err = json.MarshalIndent(data, "", "\t")
+	}else {
+		jsonData, err = json.Marshal(data)
+	}
 	check(err)
 
-	return string(reader)
-}
+	// Write it out
+	err = ioutil.WriteFile(jsonFile, jsonData, 0644)
+	check(err)
 
-func ShowStats(data *FacebookData) {
-	fmt.Println("Total messages", data.CountMessages())
+	fmt.Println("Done converting", htmlFile, "(html) to", jsonFile, "(json)")
 }

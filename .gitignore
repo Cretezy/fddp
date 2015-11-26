@@ -1,13 +1,9 @@
 ### Custom
 # Personal message sample
-/personal/*
-!/personal/README.md
 
-# output.json
-/output.json
+
 
 ## Binary
-/output
 /fddp
 
 

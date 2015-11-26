@@ -5,6 +5,7 @@ import (
 	"time"
 	"sort"
 )
+
 /*
 Note to Facebook:
 Why do you organize the messages.htm like that?
@@ -13,6 +14,7 @@ It could be make simpler and more efficient, just hire me! ;)
 Note:
 This reads from Facebook's message.htm and converts in a FacebookData.
 You can see a sample under samples/sample.htm
+More info under samples/README.md
 */
 
 func FromHtml(html string) FacebookData {
@@ -62,7 +64,7 @@ func FromHtml(html string) FacebookData {
 	return FacebookData{WhoAmI: whoami, Threads: threads}
 }
 
-// Removes duplicate threads from Html format
+// Removes duplicate threads from Html format (Facebook organizes threads in chunks)
 func FixThreads(threads []Thread) []Thread {
 	newThreads := make([]Thread, 0)
 	persons := make([][]string, 0)

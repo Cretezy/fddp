@@ -6,9 +6,6 @@ import (
 	"time"
 )
 
-var quiet bool
-var jsonFile string
-
 func main() {
 	// Calculate running time, useful to know perfomance
 	start := time.Now()
@@ -20,20 +17,15 @@ func main() {
 	app.Commands = []cli.Command{
 		cli.Command{
 			Name: "convert",
-			Description: "convert messages from one data holder to another (i.e.: html to json)",
-			// fddp convert --fromHtml messages.htm --toJson messages.json
+			Description: "convert messages from Html to Json",
+			Usage: "{0} aaa",
+			Action: Convert,
 			Flags: []cli.Flag{
-				cli.StringFlag{
-					Name: "fromHtml, fH",
-				},
-				cli.StringFlag{
-					Name: "fromJson, fJ",
-				},
-				cli.StringFlag{
-					Name: "toJson, tJ",
+				cli.BoolFlag{
+					Name: "indent, i",
+					Usage: "indent output of Json file",
 				},
 			},
-			Action: convert,
 		},
 	}
 
@@ -42,46 +34,4 @@ func main() {
 	// Calculate time
 	elapsed := time.Since(start)
 	fmt.Println("Took", elapsed)
-
-}
-
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
-}
-
-func run(c *cli.Context) {
-
-}
-
-// Get if 2 slices of people's name match, order doesn't matter
-// Not by me
-func matchingPersons(persons1 []string, persons2 []string) bool {
-	diffStr := []string{}
-	m := map[string]int{}
-
-	for _, s1Val := range persons1 {
-		m[s1Val] = 1
-	}
-	for _, s2Val := range persons2 {
-		m[s2Val] = m[s2Val] + 1
-	}
-
-	for mKey, mVal := range m {
-		if mVal == 1 {
-			diffStr = append(diffStr, mKey)
-		}
-	}
-
-	return len(diffStr) == 0
-}
-
-func contains(slice []string, contain string) bool {
-	for _, element := range slice {
-		if element == contain {
-			return true
-		}
-	}
-	return false
 }
