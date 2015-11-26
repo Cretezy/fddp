@@ -18,6 +18,10 @@ func (data FacebookData) CountWords() int {
 	return words
 }
 
+func (data FacebookData) CountThreads() int {
+	return len(data.Threads)
+}
+
 func (data FacebookData) CountMessages() int {
 	var messages int = 0
 
