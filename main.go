@@ -20,5 +20,6 @@ func main() {
 
 	// Calculate time
 	elapsed := time.Since(start)
+	fmt.Println()
 	fmt.Println("Took", elapsed)
 }
