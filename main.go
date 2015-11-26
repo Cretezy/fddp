@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	// Calculate running time, useful to know perfomance
+	// Calculate running time from start to bottom, useful to know perfomance
 	start := time.Now()
 
 	app := cli.NewApp()
