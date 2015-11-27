@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// Runs fddp
 func main() {
 	// Calculate running time from start to bottom, useful to know perfomance
 	start := time.Now()
@@ -13,6 +14,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "fddp"
 	app.Usage = "Facebook Downloaded Data Processor"
+	app.Description = "does stuff with Facebook data"
 
 	app.Commands = Commands()
 
