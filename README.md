@@ -59,6 +59,13 @@ fddp count [flags] input.json
 | Words    | `-words`, `-w`     |
 
 
+### Compare
+You must input 2 JSON file (use convert command first).
+```
+fddp compare samples/sample.json samples/sample-indent.json
+```
+
+
 ## Notes
 
 #### Example File Size 
@@ -70,6 +77,7 @@ Running on an average-high end desktop CPU (4770K) and SSD.
 | Convert             | ~7.5s      |
 | Convert (with `-i`) | ~8s        |
 | Count (all type)    | ~850-950ms |
+| Compare             | ~2s        |
 
 | Files Size             | Size   |
 |------------------------|-------:|
