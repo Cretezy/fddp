@@ -5,5 +5,6 @@ import "github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/codegang
 func Commands() []cli.Command {
 	return []cli.Command{
 		ConvertCommand(),
+		CountCommand(),
 	}
 }

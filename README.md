@@ -45,13 +45,33 @@ This will turn `personal/messages.htm` to JSON format and save it (under `person
 You can use `-i` (or `--indent`) to indent (pretty print). This is not recommended on big data set as it adds useless storage bulk
 (see [Example File Size](https://github.com/CraftThatBlock/fddp#example-file-size) for increase).
 
+
+### Count
+You must input a JSON file (use convert command first). You may use many flags at the same time.
+```
+fddp count [flags] input.json
+```
+
+| Name     | Flag               |
+|----------|--------------------|
+| Threads  | `--thread`, `-t`   |
+| Messages | `--messages`, `-m` |
+| Words    | `-words`, `-w`     |
+
+
 ## Notes
 
+#### Example File Size 
+Sample size of this is from my Facebook, ~350k messages.
+Running on an average-high end desktop CPU (4770K) and SSD.
 
-#### Example File Size (
-Converting ~350k messages from my Facebook from HTML to JSON runs in about 6-7 seconds on an average-high end desktop CPU (4770K) and SSD .
+| Command             | Time       |
+|---------------------|------------|
+| Convert             | ~7.5s      |
+| Convert (with `-i`) | ~8s        |
+| Count (all type)    | ~850-950ms |
 
-| Files                  | Size   |
+| Files Size             | Size   |
 |------------------------|-------:|
 | `messages.htm`         | 70.3MB |
 | `messages.json`        | 36.4MB |
