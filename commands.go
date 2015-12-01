@@ -6,5 +6,6 @@ func Commands() []cli.Command {
 	return []cli.Command{
 		ConvertCommand(),
 		CountCommand(),
+		CompareCommand(),
 	}
 }

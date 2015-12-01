@@ -12,7 +12,7 @@ func ConvertCommand() cli.Command {
 		Name:        "convert",
 		Description: "convert messages from HTML to JSON",
 		Usage:       "input.html output.json",
-		Action:      Convert,
+		Action:      ConvertAction,
 		Flags: []cli.Flag{
 			cli.BoolFlag{
 				Name:  "indent, i",
@@ -22,7 +22,7 @@ func ConvertCommand() cli.Command {
 	}
 }
 
-func Convert(c *cli.Context) {
+func ConvertAction(c *cli.Context) {
 	// Figure out input
 	if len(c.Args()) < 2 {
 		cli.ShowCommandHelp(c, c.Command.Name)
