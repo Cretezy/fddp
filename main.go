@@ -1,4 +1,5 @@
 package main
+
 import (
 	"fmt"
 	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
@@ -14,7 +15,7 @@ func main() {
 	app := cli.NewApp()
 
 	app.Name = "fddp"
-	app.Usage = "Facebook Downloaded Data Processor"
+	app.Usage = "Facebook Downloaded Data Processor - process Facebook archive messages"
 
 	app.Commands = Commands()
 

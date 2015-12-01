@@ -1,9 +1,10 @@
 package main
+
 import (
 	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/PuerkitoBio/goquery"
+	"sort"
 	"strings"
 	"time"
-	"sort"
 )
 
 /*
@@ -17,7 +18,7 @@ You can see a sample under samples/sample.htm
 More info under samples/README.md
 */
 
-func FromHtml(html string) FacebookData {
+func FromHTML(html string) FacebookData {
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(html))
 	check(err)
 
@@ -29,16 +30,16 @@ func FromHtml(html string) FacebookData {
 	format := "Monday, 2 January 2006 at 15:04 MST"
 
 	/*
-	Note:
-	There can be many thread for the same "conversation", they are in small chunks.
-	These are listed chronologically, and are pretty messy in the Html format.
+		Note:
+		There can be many thread for the same "conversation", they are in small chunks.
+		These are listed chronologically, and are pretty messy in the Html format.
 
-	This code basically goes though all the threads and lists them, with a list of messages and who send them.
-	This is the best way I found to get this to work nicely. After, it merges all duplicates (will happen).
+		This code basically goes though all the threads and lists them, with a list of messages and who send them.
+		This is the best way I found to get this to work nicely. After, it merges all duplicates (will happen).
 
-	I find it runs quite nicely in terms of speed but I'm sure it can be improved.
-	Feel free to do so! The coding on this is also a little messy, but it makes sense.
-	 */
+		I find it runs quite nicely in terms of speed but I'm sure it can be improved.
+		Feel free to do so! The coding on this is also a little messy, but it makes sense.
+	*/
 	doc.Find(".thread").Each(func(threadId int, threadSelector *goquery.Selection) {
 		// People in this thread
 		persons := strings.Split(strings.TrimSpace(threadSelector.Nodes[0].FirstChild.Data), ", ")
@@ -68,7 +69,7 @@ func FromHtml(html string) FacebookData {
 	// Sort by highest messages
 	sort.Sort(ByMessage(threads))
 	// Reverse (top = more)
-	for i, j := 0, len(threads) - 1; i < j; i, j = i + 1, j - 1 {
+	for i, j := 0, len(threads)-1; i < j; i, j = i+1, j-1 {
 		threads[i], threads[j] = threads[j], threads[i]
 	}
 
@@ -83,20 +84,20 @@ func FixThreads(threads []Thread) []Thread {
 	for _, thread := range threads {
 		skip := false
 		for _, personCheck := range persons {
-			if (matchingPersons(personCheck, thread.Persons)) {
+			if matchingPersons(personCheck, thread.Persons) {
 				skip = true
 				break
 			}
 		}
-		if (skip) {
+		if skip {
 			continue
 		}
 		persons = append(persons, thread.Persons)
 
-		newThread := Thread{Persons:thread.Persons, Messages:make([]Message, 0)}
+		newThread := Thread{Persons: thread.Persons, Messages: make([]Message, 0)}
 
 		for _, otherThread := range threads {
-			if (matchingPersons(thread.Persons, otherThread.Persons)) {
+			if matchingPersons(thread.Persons, otherThread.Persons) {
 				newThread.Messages = append(newThread.Messages, otherThread.Messages...)
 			}
 		}

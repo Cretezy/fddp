@@ -1,4 +1,5 @@
 package main
+
 import "io/ioutil"
 
 // Error checking

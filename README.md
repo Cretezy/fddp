@@ -15,7 +15,7 @@ Once you have this zip file, open it and place the `messages.htm` inside the `pe
 I have crafted samples for you to use to test.
 These are identical to how Facebook's archives distribute their `messages.htm`.
 
-This is an easier way to get started then download your FB archive but is way less populated (only a few messages).
+> This is an easier way to get started then download your FB archive but is way less populated (only a few messages).
 
 ## Setup
 `fddp` uses [godep](https://github.com/tools/godep) for dependency management. It is not required to run.
@@ -24,24 +24,33 @@ You may install it using `make deps`
 ### Install
 You must first get the project.
 ```
-git clone https://github.com/CraftThatBlock/fddp.git
-cd fddp
+git clone https://github.com/CraftThatBlock/fddp.git && cd fddp
 ```
+
+You can then build it and install it to `$GOPATH/bin` (must be in `$PATH`)
+```
+go build && go install
+```
+
+## Usage
+
 ### Convert
-You must convert your Html message file to Json before doing any research.
+You must convert your HTML message file to JSON before doing anything with it. It will also clean it.
 ```
-go build
-./fddp convert personal/messages.htm personal/messages.json
+fddp convert personal/messages.htm personal/messages.json
 ```
 
-This will turn `personal/messages.htm` to Json format and save it (under `personal/messages.json`).
+This will turn `personal/messages.htm` to JSON format and save it (under `personal/messages.json`).
 
-You can use `-i` to indent (pretty print). This is not recommended on big dataset as it adds useless storage bulk.
+You can use `-i` (or `--indent`) to indent (pretty print). This is not recommended on big data set as it adds useless storage bulk
+(see [Example File Size](https://github.com/CraftThatBlock/fddp#example-file-size) for increase).
 
 ## Notes
-Running with ~350k messages from my Facebook runs in about 6-7 seconds on an average-high end desktop computer (with SSD).
 
-#### Example File Size
+
+#### Example File Size (
+Converting ~350k messages from my Facebook from HTML to JSON runs in about 6-7 seconds on an average-high end desktop CPU (4770K) and SSD .
+
 | Files                  | Size   |
 |------------------------|-------:|
 | `messages.htm`         | 70.3MB |

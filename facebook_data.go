@@ -1,4 +1,5 @@
 package main
+
 import "strings"
 
 type FacebookData struct {
