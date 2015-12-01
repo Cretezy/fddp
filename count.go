@@ -1,7 +1,8 @@
 package main
+
 import (
-	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
 	"fmt"
+	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
 	"strings"
 )
 
@@ -44,8 +45,7 @@ func Count(c *cli.Context) {
 	displayCount("messages", CountMessages(data), c, &hasSomeOutput)
 	displayCount("words", CountWords(data), c, &hasSomeOutput)
 
-
-	if (!hasSomeOutput) {
+	if !hasSomeOutput {
 		fmt.Println("You must include a flag to display an output")
 		fmt.Println()
 		cli.ShowCommandHelp(c, c.Command.Name)
@@ -53,7 +53,7 @@ func Count(c *cli.Context) {
 }
 
 func displayCount(stat string, statCount int, c *cli.Context, hasSomeOutput *bool) {
-	if (c.Bool(stat)) {
+	if c.Bool(stat) {
 		*hasSomeOutput = true
 		fmt.Println("Data set has", statCount, stat)
 	}
@@ -84,4 +84,3 @@ func CountMessages(data FacebookData) int {
 
 	return messages
 }
-
