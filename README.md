@@ -35,6 +35,8 @@ go build && go install
 ## Usage
 
 ### Convert
+Converts a HTML message file (ex: Facebook's `messages.htm`) to JSON.
+
 You must convert your HTML message file to JSON before doing anything with it. It will also clean it.
 ```
 fddp convert personal/messages.htm personal/messages.json
@@ -47,6 +49,8 @@ You can use `-i` (or `--indent`) to indent (pretty print). This is not recommend
 
 
 ### Count
+Counts threads/messages/words in a data set.
+
 You must input a JSON file (use convert command first). You may use many flags at the same time.
 ```
 fddp count [flags] input.json
@@ -60,11 +64,22 @@ fddp count [flags] input.json
 
 
 ### Compare
+Shows the difference between 2 data sets (in count, not data).
+
 You must input 2 JSON file (use convert command first).
 ```
 fddp compare samples/sample.json samples/sample-indent.json
 ```
 
+### List
+List tops people you have messaged.
+
+You must input a JSON file (use convert command first).
+```
+fddp list samples/sample.json
+```
+
+Default shows top `50` but using `-c` (or `--count`) followed by a custom number you may change the number of threads displayed.
 
 ## Notes
 
@@ -72,12 +87,17 @@ fddp compare samples/sample.json samples/sample-indent.json
 Sample size of this is from my Facebook, ~350k messages.
 Running on an average-high end desktop CPU (4770K) and SSD.
 
-| Command             | Time       |
-|---------------------|------------|
-| Convert             | ~7.5s      |
-| Convert (with `-i`) | ~8s        |
-| Count (all type)    | ~850-950ms |
-| Compare             | ~2s        |
+Note: I think that reading the actual file (~36MB) from disk is the main bottleneck for these stats.
+I estimate that reading from file (and parsing the JSON) actually takes around 800ms or so,
+except the convert which takes a much longer time (parsing HTML/messages is a lot slower) and compare, which needs to open 2 files.
+
+| Command                | Time       |
+|------------------------|------------|
+| Convert                | ~7.5s      |
+| Convert (with `-i`)    | ~8s        |
+| Count (all type)       | ~850-950ms |
+| Compare (self vs self) | ~1.8s      |
+| List                   | ~850-900ms |
 
 | Files Size             | Size   |
 |------------------------|-------:|

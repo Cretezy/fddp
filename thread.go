@@ -1,10 +1,26 @@
 package main
 
-import "time"
+import (
+	"strings"
+	"time"
+)
 
 type Thread struct {
 	Messages []Message `json:"messages"`
 	Persons  []string  `json:"persons"`
+}
+
+func (thread Thread) CountMessages() int {
+	return len(thread.Messages)
+}
+func (thread Thread) CountWords() int {
+	words := 0
+
+	for _, message := range thread.Messages {
+		words += len(strings.Split(message.Text, " "))
+	}
+
+	return words
 }
 
 type ByMessage []Thread

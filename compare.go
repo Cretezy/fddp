@@ -64,7 +64,7 @@ func CheckIndentical(data1 FacebookData, data2 FacebookData, print bool) bool {
 	if print {
 		if indentical {
 			fmt.Println("Data sets indentical!")
-		}else {
+		} else {
 			fmt.Println("Data sets are not indentical!")
 		}
 	}

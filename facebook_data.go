@@ -1,5 +1,4 @@
 package main
-import "strings"
 
 type FacebookData struct {
 	WhoAmI  string   `json:"whoami"`
@@ -7,12 +6,10 @@ type FacebookData struct {
 }
 
 func (data FacebookData) CountWords() int {
-	var words int = 0
+	words := 0
 
 	for _, thread := range data.Threads {
-		for _, message := range thread.Messages {
-			words += len(strings.Split(message.Text, " "))
-		}
+		words += thread.CountWords()
 	}
 
 	return words
@@ -23,10 +20,10 @@ func (data FacebookData) CountThreads() int {
 }
 
 func (data FacebookData) CountMessages() int {
-	var messages int = 0
+	messages := 0
 
 	for _, thread := range data.Threads {
-		messages += len(thread.Messages)
+		messages += thread.CountMessages()
 	}
 
 	return messages

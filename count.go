@@ -57,4 +57,3 @@ func displayCount(stat string, statCount int, c *cli.Context, hasSomeOutput *boo
 		fmt.Println("Data set has", statCount, stat)
 	}
 }
-

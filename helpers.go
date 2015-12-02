@@ -49,3 +49,13 @@ func GetFileContent(file string) string {
 
 	return string(reader)
 }
+
+func DeleteElementFromSlice(elements []string, delete string) []string {
+	newElements := make([]string, 0)
+	for _, element := range elements {
+		if element != delete {
+			newElements = append(newElements, element)
+		}
+	}
+	return newElements
+}
