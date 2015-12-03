@@ -11,7 +11,7 @@ func ConvertCommand() cli.Command {
 	return cli.Command{
 		Name:      "convert",
 		Usage:     "convert messages from HTML to JSON",
-		ArgsUsage: "input HTML file and path to output JSON",
+		ArgsUsage: "input.html output.json",
 		Action:    ConvertAction,
 		Flags: []cli.Flag{
 			cli.BoolFlag{

@@ -9,7 +9,7 @@ func CountCommand() cli.Command {
 	return cli.Command{
 		Name:      "count",
 		Usage:     "count various stats (messages, words, etc)",
-		ArgsUsage: "input 2 JSON files",
+		ArgsUsage: "input.json",
 		Action:    CountAction,
 		Flags: []cli.Flag{
 			cli.BoolFlag{

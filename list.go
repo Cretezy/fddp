@@ -11,7 +11,7 @@ func ListCommand() cli.Command {
 	return cli.Command{
 		Name:      "list",
 		Usage:     "list various stats",
-		ArgsUsage: "input JSON file",
+		ArgsUsage: "input.json",
 		Action:    ListAction,
 		Flags: []cli.Flag{
 			cli.IntFlag{

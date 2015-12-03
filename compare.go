@@ -9,7 +9,7 @@ func CompareCommand() cli.Command {
 	return cli.Command{
 		Name:      "compare",
 		Usage:     "compare 2 data set",
-		ArgsUsage: "input 2 JSON file",
+		ArgsUsage: "input1.json input2.json",
 		Action:    CompareAction,
 	}
 }
