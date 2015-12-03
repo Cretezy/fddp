@@ -9,10 +9,10 @@ import (
 
 func ConvertCommand() cli.Command {
 	return cli.Command{
-		Name:        "convert",
-		Description: "convert messages from HTML to JSON",
-		Usage:       "input.html output.json",
-		Action:      ConvertAction,
+		Name:      "convert",
+		Usage:     "convert messages from HTML to JSON",
+		ArgsUsage: "input HTML file and path to output JSON",
+		Action:    ConvertAction,
 		Flags: []cli.Flag{
 			cli.BoolFlag{
 				Name:  "indent, i",

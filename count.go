@@ -7,10 +7,10 @@ import (
 
 func CountCommand() cli.Command {
 	return cli.Command{
-		Name:        "count",
-		Description: "count various stats (messages, words, etc)",
-		Usage:       "input.json",
-		Action:      CountAction,
+		Name:      "count",
+		Usage:     "count various stats (messages, words, etc)",
+		ArgsUsage: "input 2 JSON files",
+		Action:    CountAction,
 		Flags: []cli.Flag{
 			cli.BoolFlag{
 				Name:  "threads, t",

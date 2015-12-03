@@ -7,10 +7,10 @@ import (
 
 func CompareCommand() cli.Command {
 	return cli.Command{
-		Name:        "compare",
-		Description: "compare 2 data set",
-		Usage:       "data1.json data2.json",
-		Action:      CompareAction,
+		Name:      "compare",
+		Usage:     "compare 2 data set",
+		ArgsUsage: "input 2 JSON file",
+		Action:    CompareAction,
 	}
 }
 
