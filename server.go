@@ -1,12 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
 	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/go-martini/martini"
-	"net/http"
-	"fmt"
 	"io/ioutil"
-
+	"net/http"
 )
 
 func ServerCommand() cli.Command {
@@ -25,7 +24,6 @@ func ServerAction(c *cli.Context) {
 	//m.Get("/", func() string {
 	//	return "Hello  world!"
 	//})
-
 
 	m.Post("/convert", func(r *http.Request) string {
 		file, _, err := r.FormFile("messages")
