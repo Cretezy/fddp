@@ -32,6 +32,26 @@
 					"sender": "John Smith",
 					"text": "I'm doing great thanks!",
 					"time": "2012-09-17T17:08:00-04:00"
+				},
+				{
+					"sender": "Foo Bar",
+					"text": "Sorry, didn't reply, I was busy.",
+					"time": "2012-09-19T14:00:00-04:00"
+				},
+				{
+					"sender": "John Smith",
+					"text": "It's okay, I've been too",
+					"time": "2012-09-19T14:00:00-04:00"
+				},
+				{
+					"sender": "Foo Bar",
+					"text": "Alright, well good-bye!",
+					"time": "2012-09-19T14:00:00-04:00"
+				},
+				{
+					"sender": "John Smith",
+					"text": "Ciao!",
+					"time": "2012-09-19T14:00:00-04:00"
 				}
 			],
 			"persons": [

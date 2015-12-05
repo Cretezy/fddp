@@ -21,14 +21,15 @@ function hashCheck(isFirstLoad) {
     if (isFirstLoad || !scroll(hash)) {
         // Default to "home"
         if (hash == "")
-            page('home');
-        else {
-            page(hash.split("#")[0]);
-        }
-    }
-
-    if (isFirstLoad) {
-        scroll(hash);
+            page('home', function () {
+                if (isFirstLoad)
+                    scroll(hash);
+            });
+        else
+            page(hash.split("#")[0], function () {
+                if (isFirstLoad)
+                    scroll(hash);
+            });
     }
 }
 
@@ -40,14 +41,12 @@ function hashCheck(isFirstLoad) {
  * @returns {boolean} Has scrolled (has an element)
  */
 function scroll(hash) {
-    console.log("A" + hash);
     if (hash.indexOf("#") > -1) {
         var element = hash.split("#")[1];
         if (element == "top") {
             scrollToTop();
             return false;
         } else {
-            console.log(element);
             document.getElementById(element).scrollIntoView(true);
             window.location.hash = "#" + hash;
             return true
@@ -66,13 +65,18 @@ function scrollToTop() {
  * Get content of url
  *
  * @param url URL
+ * @param callback
  * @returns {string} Content
  */
-function httpGet(url) {
+function httpGet(url, callback) {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", url, false);
-    xmlHttp.send(null);
-    return xmlHttp.responseText;
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+            callback(xmlHttp.responseText)
+        }
+    };
+    xmlHttp.open("GET", url, true);
+    xmlHttp.send();
 }
 
 /**
@@ -94,12 +98,16 @@ function updateLinks() {
 /**
  * Replace to page
  *
- * @param page Page to replace to
+ * @param newPage Page to replace to
+ * @param callback
  */
-function page(newPage) {
+function page(newPage, callback) {
     currentPage = newPage;
-    document.getElementById(pageHolderTag).innerHTML = httpGet(pagesDirectory + '/' + newPage + '.html');
-    updateLinks();
-    window.location.hash = "#" + newPage;
-    scrollToTop()
+    httpGet(pagesDirectory + '/' + newPage + '.html', function (body) {
+        document.getElementById(pageHolderTag).innerHTML = body;
+        updateLinks();
+        window.location.hash = "#" + newPage;
+        scrollToTop();
+        callback();
+    });
 }
