@@ -1,9 +1,11 @@
 <div>
     <h1>Convert</h1>
-    <a data-page="home">Back to home</a>
+    <a href="#home">Back to home</a>
+    <br/>
+    <br/>
 
-    <form action="convert" method="POST" enctype="multipart/form-data">
+    <form action="/convert" method="POST" enctype="multipart/form-data">
         <input type="file" name="messages" accept="text/html">
-        <input type="submit">
+        <input type="submit" value="Convert to JSON">
     </form>
 </div>

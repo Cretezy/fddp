@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
-	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/go-martini/martini"
+	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/gin-gonic/contrib/static"
+	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/gin-gonic/gin"
 	"io/ioutil"
-	"net/http"
+	"os"
 )
 
 func ServerCommand() cli.Command {
@@ -20,23 +20,32 @@ func ServerCommand() cli.Command {
 }
 
 func ServerAction(c *cli.Context) {
-	m := martini.Classic()
-	//m.Get("/", func() string {
-	//	return "Hello  world!"
-	//})
+	r := gin.Default()
 
-	m.Post("/convert", func(r *http.Request) string {
-		file, _, err := r.FormFile("messages")
+	r.POST("/convert", func(c *gin.Context) {
+		file, _, err := c.Request.FormFile("messages")
+		defer file.Close()
 		check(err)
 
 		b, err := ioutil.ReadAll(file)
 		check(err)
 		fbData := FromHTML(string(b))
 
-		fmt.Println(fbData)
-
-		defer file.Close()
-		return ToJSON(fbData, true)
+		c.JSON(200, fbData)
 	})
-	m.Run()
+
+	r.Use(static.Serve("/", static.LocalFile("./public", true)))
+
+	r.Run(GetAddr())
+}
+
+func GetAddr() string {
+	port := os.Getenv("PORT")
+	if len(port) == 0 {
+		port = "3000"
+	}
+
+	host := os.Getenv("HOST")
+
+	return host + ":" + port
 }
