@@ -5,26 +5,30 @@ type FacebookData struct {
 	Threads []Thread `json:"threads"`
 }
 
-func (data FacebookData) CountWords() int {
+func (fbData FacebookData) CountWords() int {
 	words := 0
 
-	for _, thread := range data.Threads {
+	for _, thread := range fbData.Threads {
 		words += thread.CountWords()
 	}
 
 	return words
 }
 
-func (data FacebookData) CountThreads() int {
-	return len(data.Threads)
+func (fbData FacebookData) CountThreads() int {
+	return len(fbData.Threads)
 }
 
-func (data FacebookData) CountMessages() int {
+func (fbData FacebookData) CountMessages() int {
 	messages := 0
 
-	for _, thread := range data.Threads {
+	for _, thread := range fbData.Threads {
 		messages += thread.CountMessages()
 	}
 
 	return messages
+}w
+
+func (fbData FacebookData) CountWordsPerMessage() int {
+	return fbData.CountWords() / fbData.CountMessages()
 }

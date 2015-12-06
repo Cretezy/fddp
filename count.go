@@ -24,6 +24,10 @@ func CountCommand() cli.Command {
 				Name:  "words, w",
 				Usage: "count words",
 			},
+			cli.BoolFlag{
+				Name: "words-per-message, wpm",
+				Usage: "count average of words per messages",
+			},
 		},
 	}
 }
@@ -43,6 +47,7 @@ func CountAction(c *cli.Context) {
 	displayCount("threads", data.CountMessages(), c, &hasSomeOutput)
 	displayCount("messages", data.CountMessages(), c, &hasSomeOutput)
 	displayCount("words", data.CountWords(), c, &hasSomeOutput)
+	displayCount("words-per-message", data.CountWordsPerMessage(), c, &hasSomeOutput)
 
 	if !hasSomeOutput {
 		fmt.Println("You must include a flag to display an output")

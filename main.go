@@ -15,7 +15,7 @@ func main() {
 	app := cli.NewApp()
 
 	app.Name = "fddp"
-	app.Usage = "Facebook Downloaded Data Processor - process Facebook archive messages"
+	app.Usage = "Facebook Downloaded Data Processor"
 
 	app.Commands = Commands()
 
