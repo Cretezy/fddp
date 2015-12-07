@@ -27,7 +27,7 @@ func (fbData FacebookData) CountMessages() int {
 	}
 
 	return messages
-}w
+}
 
 func (fbData FacebookData) CountWordsPerMessage() int {
 	return fbData.CountWords() / fbData.CountMessages()
