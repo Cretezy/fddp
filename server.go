@@ -24,7 +24,6 @@ func ServerAction(c *cli.Context) {
 	r.POST("/convert", func(c *gin.Context) {
 		file := c.Request.FormValue("messages")
 		fbData := FromHTML(file)
-
 		c.JSON(200, fbData)
 	})
 

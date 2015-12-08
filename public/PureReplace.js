@@ -3,32 +3,33 @@ var pageHolderTag = prefix + "data";
 var pagesDirectory = "pages";
 
 var currentPage;
+var callbacks = [];
 /**
  * Start up
  */
-(function () {
+function startPureReplace(){
     hashCheck(true); // First load
 
     window.onhashchange = function () {
         hashCheck(false); // Any changes after
     }
-})();
+}
 
 function hashCheck(isFirstLoad) {
     // Get hash (page name)
     var hash = window.location.hash.substr(1);
     // Scroll later if first load
-    if (isFirstLoad || !scroll(hash)) {
+    if (isFirstLoad || !scrollToHash(hash)) {
         // Default to "home"
         if (hash == "")
-            page('home', function () {
+            switchPage('home', function () {
                 if (isFirstLoad)
-                    scroll(hash);
+                    scrollToHash(hash);
             });
         else
-            page(hash.split("#")[0], function () {
+            switchPage(hash.split("#")[0], function () {
                 if (isFirstLoad)
-                    scroll(hash);
+                    scrollToHash(hash);
             });
     }
 }
@@ -40,7 +41,7 @@ function hashCheck(isFirstLoad) {
  * @param hash
  * @returns {boolean} Has scrolled (has an element)
  */
-function scroll(hash) {
+function scrollToHash(hash) {
     if (hash.indexOf("#") > -1) {
         var element = hash.split("#")[1];
         if (element == "top") {
@@ -101,13 +102,20 @@ function updateLinks() {
  * @param newPage Page to replace to
  * @param callback
  */
-function page(newPage, callback) {
+function switchPage(newPage, callback) {
     currentPage = newPage;
     httpGet(pagesDirectory + '/' + newPage + '.html', function (body) {
         document.getElementById(pageHolderTag).innerHTML = body;
         updateLinks();
         window.location.hash = "#" + newPage;
         scrollToTop();
+        callbacks.forEach(function(pageLoadCallback){
+            pageLoadCallback();
+        });
         callback();
     });
+}
+
+function onPageLoad(callback){
+    callbacks.push(callback)
 }
