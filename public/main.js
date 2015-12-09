@@ -48,7 +48,7 @@ $(document).ready(function () {
                 messages += E("li", E.strong(message.sender) + ": " + escapeHTML(message.text));
             });
             var threadElement = threadHolder.append(
-                E.("li",
+                E("li",
                 E("h1", thread.persons.join(" & "), {"class": "title-" + i}) +
                 E("ul", messages, {"class": "messages-" + i})
                     )
