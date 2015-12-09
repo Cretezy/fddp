@@ -101,6 +101,7 @@ func FixThreads(threads []Thread) []Thread {
 				newThread.Messages = append(newThread.Messages, otherThread.Messages...)
 			}
 		}
+		sort.Sort(ByTime(newThread.Messages))
 		newThreads = append(newThreads, newThread)
 	}
 

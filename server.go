@@ -5,6 +5,7 @@ import (
 	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/gin-gonic/contrib/static"
 	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/gin-gonic/gin"
 	"os"
+	"io/ioutil"
 )
 
 func ServerCommand() cli.Command {
@@ -22,8 +23,18 @@ func ServerAction(c *cli.Context) {
 	r := gin.Default()
 
 	r.POST("/convert", func(c *gin.Context) {
-		file := c.Request.FormValue("messages")
-		fbData := FromHTML(file)
+
+		file, _, err := c.Request.FormFile("messages")
+		defer file.Close()
+		check(err)
+
+		b, err := ioutil.ReadAll(file)
+		check(err)
+		fbData := FromHTML(string(b))
+
+		c.Header("Content-disposition", "attachment; filename=messages.json");
+		c.Header("Content-type", "application/json");
+
 		c.JSON(200, fbData)
 	})
 

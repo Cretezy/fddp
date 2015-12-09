@@ -34,3 +34,17 @@ type Message struct {
 	Text   string    `json:"text"`
 	Time   time.Time `json:"time"`
 }
+
+type ByTime []Message
+
+func (p ByTime) Len() int {
+	return len(p)
+}
+
+func (p ByTime) Less(i, j int) bool {
+	return p[i].Time.Before(p[j].Time)
+}
+
+func (p ByTime) Swap(i, j int) {
+	p[i], p[j] = p[j], p[i]
+}

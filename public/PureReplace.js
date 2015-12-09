@@ -120,7 +120,7 @@ var PureReplace = {
      * @param newPage New page
      * @param callback Callback
      */
-    switchPage: function (newPage, callback) {
+    switchPage: function (newPage, callback, pageData) {
         if (PureReplace.currentPage == newPage) { // Don't double switch
             if (callback != null)
                 callback(false); // Run callback once done
@@ -137,7 +137,7 @@ var PureReplace = {
                 });
                 PureReplace.pageCallbacks.forEach(function (pageCallback) {
                     if (pageCallback.page == PureReplace.currentPage)
-                        pageCallback.callback(); // Run page-specific load callback
+                        pageCallback.callback(pageData); // Run page-specific load callback
                 });
                 if (callback != null)
                     callback(true); // Run callback once done

@@ -1,0 +1,16 @@
+<div>
+    <h1>Convert</h1>
+    <a href="#home">Back to home</a>
+    <br/>
+    <br/>
+
+    <form action="/convert" id="convertForm" method="POST" enctype="multipart/form-data">
+        <input type="file" name="messages" accept="text/html">
+        <input type="submit" value="Convert to JSON">
+    </form>
+    <hr/>
+    <form id="loadForm" enctype="multipart/form-data">
+        <input type="file" name="messages" accept="application/json">
+        <input type="submit" value="Load JSON">
+    </form>
+</div>
