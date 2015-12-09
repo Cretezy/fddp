@@ -31,7 +31,7 @@ var PureReplace = {
     /**
      * Runs on each changes of hash -> changes page
      *
-     * @param isFirstLoad First time loading
+     * @param isFirstLoad - First time loading
      */
     hashCheck: function (isFirstLoad) {
         // Get hash (page name)
@@ -54,7 +54,7 @@ var PureReplace = {
      * Format: page#element
      *
      * @param hash
-     * @returns {boolean} Has scrolled (has an element)
+     * @returns {boolean} - Has scrolled (has an element)
      */
     scrollToHash: function (hash) {
         if (hash.indexOf("#") > -1) { // Has a sub-hash (scroll-to)
@@ -83,9 +83,9 @@ var PureReplace = {
     /**
      * Get content of url
      *
-     * @param url URL
+     * @param url - URL
      * @param callback
-     * @returns {string} Content
+     * @returns {string} - Content
      */
     httpGet: function (url, callback) {
         var xmlHttp = new XMLHttpRequest();
@@ -117,8 +117,9 @@ var PureReplace = {
     /**
      * Replace to page
      *
-     * @param newPage New page
-     * @param callback Callback
+     * @param newPage - New page
+     * @param callback - Callback
+     * @param [pageData] - Data to pass to page-specific callbacks
      */
     switchPage: function (newPage, callback, pageData) {
         if (PureReplace.currentPage == newPage) { // Don't double switch
@@ -148,7 +149,7 @@ var PureReplace = {
     /**
      * Add a callback to be ran after all page load
      *
-     * @param callback Callback
+     * @param callback - Callback
      */
     addGlobalLoadCallback: function (callback) {
         PureReplace.globalCallbacks.push(callback)
@@ -157,8 +158,8 @@ var PureReplace = {
     /**
      * Add a callback to be ran after a specific page load
      *
-     * @param page Page
-     * @param callback Callback
+     * @param page - Page to run callback
+     * @param callback - Callback
      */
     addPageLoadCallback: function (page, callback) {
         PureReplace.pageCallbacks.push({page: page, callback: callback})

@@ -45,18 +45,18 @@ $(document).ready(function () {
             i++;
             var messages = "";
             thread.messages.forEach(function (message) {
-                messages += E.li(E.strong(message.sender) + ": " + escapeHTML(message.text));
+                messages += E("li", E.strong(message.sender) + ": " + escapeHTML(message.text));
             });
             var threadElement = threadHolder.append(
-                E.li(
-                    E.h1(thread.persons.join(" & "), {"class": "title-" + i}) +
-                    E.ul(messages, {"class": "messages-" + i})
-                )
+                E.("li",
+                E("h1", thread.persons.join(" & "), {"class": "title-" + i}) +
+                E("ul", messages, {"class": "messages-" + i})
+                    )
             );
             // TODO: fix bug that need "i"
             var titleElement = threadElement.find(".title-" + i);
             var messagesElement = threadElement.find(".messages-" + i);
-            titleElement.click(function(){
+            titleElement.click(function () {
                 messagesElement.toggle();
             });
             messagesElement.hide();
