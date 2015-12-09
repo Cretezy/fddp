@@ -32,8 +32,8 @@ func ServerAction(c *cli.Context) {
 		check(err)
 		fbData := FromHTML(string(b))
 
-		c.Header("Content-disposition", "attachment; filename=messages.json");
-		c.Header("Content-type", "application/json");
+		//c.Header("Content-disposition", "attachment; filename=messages.json");
+		//c.Header("Content-type", "application/json");
 
 		c.JSON(200, fbData)
 	})

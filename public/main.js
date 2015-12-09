@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    PureReplace.addPageLoadCallback("convert", function () {
+    PureReplace.addPageLoadCallback("import", function () {
         $("#convertForm").submit(function (e) {
             e.preventDefault();
             var form = $(this);
@@ -40,15 +40,26 @@ $(document).ready(function () {
         $("#fddp-whoami").html(pageData.whoami);
 
         var threadHolder = $("#fddp-threads");
+        var i = 0;
         pageData.threads.forEach(function (thread) {
+            i++;
             var messages = "";
             thread.messages.forEach(function (message) {
                 messages += E.li(E.strong(message.sender) + ": " + escapeHTML(message.text));
             });
-            threadHolder.append(E.li(
-                E.h1(thread.persons.join(" & ")) +
-                E.ul(messages)
-            ))
+            var threadElement = threadHolder.append(
+                E.li(
+                    E.h1(thread.persons.join(" & "), {"class": "title-" + i}) +
+                    E.ul(messages, {"class": "messages-" + i})
+                )
+            );
+            // TODO: fix bug that need "i"
+            var titleElement = threadElement.find(".title-" + i);
+            var messagesElement = threadElement.find(".messages-" + i);
+            titleElement.click(function(){
+                messagesElement.toggle();
+            });
+            messagesElement.hide();
         });
     });
 
