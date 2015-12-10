@@ -47,9 +47,15 @@ $(document).ready(function () {
             thread.messages.forEach(function (message) {
                 messages += E("li", E("strong", message.sender) + ": " + escapeHTML(message.text));
             });
+
+            var persons = [];
+            thread.persons.forEach(function(person){
+                if(person!=pageData.whoami) persons.push(person);
+            });
             var threadElement = threadHolder.append(
                 E("li",
-                    E("h1", thread.persons.join(" & "), {"class": "fddp-title-" + i}) +
+                    E("h1", persons.join(" & ") + " (#"  + thread.messages.length + ")", {"class": "fddp-title-" + i}) +
+
                     E("ul", "", {"class": ["fddp-messages-" + i, "fddp-hidden"]})
                 )
             );
