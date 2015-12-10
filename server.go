@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
-	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/gin-gonic/contrib/static"
 	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/gin-gonic/gin"
 	"os"
 	"io/ioutil"
+	"github.com/CraftThatBlock/fddp/static"
 )
 
 func ServerCommand() cli.Command {

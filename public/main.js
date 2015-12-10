@@ -45,7 +45,7 @@ $(document).ready(function () {
             i++;
             var messages = "";
             thread.messages.forEach(function (message) {
-                messages += E("li", E.strong(message.sender) + ": " + escapeHTML(message.text));
+                messages += E("li", E("strong", message.sender) + ": " + escapeHTML(message.text));
             });
             var threadElement = threadHolder.append(
                 E("li",
