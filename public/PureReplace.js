@@ -39,7 +39,6 @@ var PureReplace = {
         // Scroll later if first load
         // Default to "home"
         if (hash == "") {
-
             PureReplace.switchPage('home', null);
         } else {
             PureReplace.switchPage(hash.split("#")[0], function () {
@@ -107,9 +106,16 @@ var PureReplace = {
         for (var i = 0; i < links.length; i++) {
             var link = links[i];
             // Check if link starts with ## tag
-            if (link.href.split("#").length > 2) {
+            var hashs = link.href.split("#");
+            if (hashs.length - 1 == 2) {
                 // Make it link to self-page plus element
-                link.href = "#" + window.location.hash.split("#")[1] + "#" + link.href.split("#")[2];
+                link.href = "#" + window.location.hash.split("#")[1] + "#" + hashs[2];
+            } else if (link.href == window.location.href.split("#")[0] + "#") {
+                // Weird hack
+                // Make href="#" do nothing
+                link.addEventListener("click", function (e) {
+                    e.preventDefault();
+                })
             }
         }
     },
@@ -130,8 +136,8 @@ var PureReplace = {
             PureReplace.httpGet(PureReplace.pagesDirectory + '/' + PureReplace.currentPage + '.html', function (body) {
                 // Replace with new page
                 document.getElementById(PureReplace.pageHolderTag).innerHTML = body;
-                PureReplace.updateLinks(); // Fix scroll-to links
                 window.location.hash = "#" + newPage; // Set new url hash
+                PureReplace.updateLinks(); // Fix scroll-to links
                 PureReplace.scrollToTop(); // Go to top
                 PureReplace.globalCallbacks.forEach(function (globalCallback) {
                     globalCallback(); // Run all global page load callbacks
@@ -158,7 +164,7 @@ var PureReplace = {
     /**
      * Add a callback to be ran after a specific page load
      *
-     * @param page - Page to run callback
+     * @param page -
      * @param callback - Callback
      */
     addPageLoadCallback: function (page, callback) {

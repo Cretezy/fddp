@@ -14,8 +14,13 @@ function E(tag, inner, attributes) {
     var meta = "";
     if (typeof attributes !== 'undefined') {
         for (var attribute in attributes) {
-            if (attributes.hasOwnProperty(attribute))
-                meta += " " + (attribute + '="' + attributes[attribute] + '"');
+            if (attributes.hasOwnProperty(attribute)) {
+                var value = attributes[attribute];
+                if (value.constructor === Array) {
+                    value = value.join(" ");
+                }
+                meta += " " + (attribute + '="' + value + '"');
+            }
         }
     }
 

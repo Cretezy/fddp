@@ -49,18 +49,29 @@ $(document).ready(function () {
             });
             var threadElement = threadHolder.append(
                 E("li",
-                E("h1", thread.persons.join(" & "), {"class": "title-" + i}) +
-                E("ul", messages, {"class": "messages-" + i})
-                    )
+                    E("h1", thread.persons.join(" & "), {"class": "fddp-title-" + i}) +
+                    E("ul", "", {"class": ["fddp-messages-" + i, "fddp-hidden"]})
+                )
             );
             // TODO: fix bug that need "i"
-            var titleElement = threadElement.find(".title-" + i);
-            var messagesElement = threadElement.find(".messages-" + i);
+            var titleElement = threadElement.find(".fddp-title-" + i);
+            var messagesElement = threadElement.find(".fddp-messages-" + i);
             titleElement.click(function () {
-                messagesElement.toggle();
+                if (messagesElement.hasClass("fddp-hidden")) {
+                    messagesElement.removeClass("fddp-hidden");
+                    messagesElement.html(messages);
+                } else {
+                    messagesElement.addClass("fddp-hidden");
+                    messagesElement.html("");
+                }
             });
-            messagesElement.hide();
         });
+        
+        var save = $("#fddp-save");
+        save.html("Click to save");
+        save.click(function () {
+            download("messages.json", JSON.stringify(pageData));
+        })
     });
 
     var escape = document.createElement('textarea');
@@ -72,5 +83,17 @@ $(document).ready(function () {
 
     PureReplace.start();
 });
+// http://stackoverflow.com/a/18197341
+function download(filename, text) {
+    var element = document.createElement('a');
+    element.style.display = 'none';
 
+    element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
 
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
