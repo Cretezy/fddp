@@ -19,17 +19,16 @@ These are identical to how Facebook's archives distribute their `messages.htm`.
 
 ## Setup
 `fddp` uses [godep](https://github.com/tools/godep) for dependency management. It is not required to run.
-You may install it using `make deps`
 
 ### Install
-- Set your `$GOPATH` and add `$GOPATH/bin` if it wasn't already.
-- `go get github.com/CraftThatBlock/fddp`
-- Enjoy! Check if everything works with `fddp`
+- Set your `$GOPATH` and add `$GOPATH/bin` to your `$PATH` if it wasn't already.
+- `git clone https://github.com/CraftThatBlock/fddp.git && cd fddp && go build`
+- Enjoy! Check if everything works with `./fddp`. You must be in the `fddp` directory to run commands.
 
 ## Usage
 
 ### Web UI
-- To start the Web UI, run `fddp server`
+- To start the Web UI, run `./fddp server`
 - Visit `http://localhost:3000/`
 
 You can switch the port using the `PORT` environment variable.
@@ -41,7 +40,7 @@ Converts a HTML message file (ex: Facebook's `messages.htm`) to JSON.
 
 You must convert your HTML message file to JSON before doing anything with it. It will also clean it.
 ```
-fddp convert personal/messages.htm personal/messages.json
+./fddp convert personal/messages.htm personal/messages.json
 ```
 
 This will turn `personal/messages.htm` to JSON format and save it (under `personal/messages.json`).
@@ -55,7 +54,7 @@ Counts threads/messages/words in a data set.
 
 You must input a JSON file (use convert command first). You may use many flags at the same time.
 ```
-fddp count [flags] input.json
+./fddp count [flags] input.json
 ```
 
 | Name     | Flag               |
@@ -70,7 +69,7 @@ Shows the difference between 2 data sets (in count, not data).
 
 You must input 2 JSON file (use convert command first).
 ```
-fddp compare samples/sample.json samples/sample-indent.json
+./fddp compare samples/sample.json samples/sample-indent.json
 ```
 
 #### List
@@ -78,7 +77,7 @@ List tops people you have messaged.
 
 You must input a JSON file (use convert command first).
 ```
-fddp list samples/sample.json
+./fddp list samples/sample.json
 ```
 
 Default shows top `50` but using `-c` (or `--count`) followed by a custom number you may change the number of threads displayed.
