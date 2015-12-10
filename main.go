@@ -16,6 +16,7 @@ func main() {
 
 	app.Name = "fddp"
 	app.Usage = "Facebook Downloaded Data Processor"
+	app.Version = "0.0.1"
 
 	app.Commands = Commands()
 
