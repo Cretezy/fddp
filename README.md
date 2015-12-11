@@ -21,7 +21,7 @@ These are identical to how Facebook's archives distribute their `messages.htm`.
 `fddp` uses [godep](https://github.com/tools/godep) for dependency management. It is not required to run.
 
 ### Install
-- Set your `$GOPATH` and add `$GOPATH/bin` to your `$PATH` if it wasn't already.
+- Setup your `$GOPATH`
 - `git clone https://github.com/CraftThatBlock/fddp.git && cd fddp && go build`
 - Enjoy! Check if everything works with `./fddp`. You must be in the `fddp` directory to run commands.
 
