@@ -25,7 +25,7 @@ func CountCommand() cli.Command {
 				Usage: "count words",
 			},
 			cli.BoolFlag{
-				Name: "words-per-message, wpm",
+				Name:  "words-per-message, wpm",
 				Usage: "count average of words per messages",
 			},
 		},

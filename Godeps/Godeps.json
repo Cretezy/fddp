@@ -17,30 +17,17 @@
 			"Rev": "0302d3914d2a6ad61404584cdae6e6dbc9c03599"
 		},
 		{
-			"ImportPath": "github.com/gin-gonic/gin",
-			"Comment": "v1.0rc1-148-g52fcc5d",
-			"Rev": "52fcc5dbf6e94df33ad313858fb94b713e9d1b4a"
+			"ImportPath": "github.com/gorilla/handlers",
+			"Rev": "1af6d56d7cd39d982856bc0cee11142baf392c52"
 		},
 		{
-			"ImportPath": "github.com/manucorporat/sse",
-			"Rev": "fe6ea2c8e398672518ef204bf0fbd9af858d0e15"
-		},
-		{
-			"ImportPath": "github.com/mattn/go-colorable",
-			"Rev": "3dac7b4f76f6e17fb39b768b89e3783d16e237fe"
-		},
-		{
-			"ImportPath": "golang.org/x/net/context",
-			"Rev": "2cba614e8ff920c60240d2677bc019af32ee04e5"
+			"ImportPath": "github.com/julienschmidt/httprouter",
+			"Comment": "v1.1-12-gf30ab90",
+			"Rev": "f30ab90cccbd5171771d26b6557d3c2f49e047a6"
 		},
 		{
 			"ImportPath": "golang.org/x/net/html",
 			"Rev": "2cba614e8ff920c60240d2677bc019af32ee04e5"
-		},
-		{
-			"ImportPath": "gopkg.in/bluesuncorp/validator.v5",
-			"Comment": "v5.12",
-			"Rev": "d5acf1dac43705f8bfbb71d878e290e2bed3950b"
 		}
 	]
 }

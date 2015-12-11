@@ -1,11 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
-	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/gin-gonic/gin"
-	"os"
+	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/gorilla/handlers"
+	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/julienschmidt/httprouter"
 	"io/ioutil"
-	"github.com/CraftThatBlock/fddp/static"
+	"net/http"
+	"os"
 )
 
 func ServerCommand() cli.Command {
@@ -20,36 +22,39 @@ func ServerCommand() cli.Command {
 }
 
 func ServerAction(c *cli.Context) {
-	r := gin.Default()
-
-	r.POST("/convert", func(c *gin.Context) {
-
-		file, _, err := c.Request.FormFile("messages")
+	router := httprouter.New()
+	router.POST("/convert", func(w http.ResponseWriter, r *http.Request) {
+		file, _, err := r.FormFile("messages")
 		defer file.Close()
-		check(err)
+		WebCheck(w, r, err)
 
 		b, err := ioutil.ReadAll(file)
-		check(err)
+		WebCheck(w, r, err)
 		fbData := FromHTML(string(b))
 
-		//c.Header("Content-disposition", "attachment; filename=messages.json");
-		//c.Header("Content-type", "application/json");
-
-		c.JSON(200, fbData)
+		w.Header().Set("Content-type", "application/json")
+		w.Write([]byte(ToJSON(fbData, false)))
 	})
+	router.NotFound = http.FileServer(http.Dir("public"))
 
-	r.Use(static.Serve("/", static.LocalFile("./public", true)))
-
-	r.Run(GetAddr())
+	compress := handlers.CompressHandler
+	addr := GetAddr()
+	check(http.ListenAndServe(addr, compress(router)))
+	fmt.Println("Listening on", addr)
 }
 
 func GetAddr() string {
-	port := os.Getenv("PORT")
-	if len(port) == 0 {
-		port = "3000"
+	if port := os.Getenv("PORT"); len(port) > 0 {
+		return ":" + port
+	} else {
+		return ":3000"
 	}
+}
 
-	host := os.Getenv("HOST")
-
-	return host + ":" + port
+func WebCheck(w http.ResponseWriter, r *http.Request, e error) {
+	if e != nil {
+		w.Write([]byte(fmt.Errorf("%v", e)))
+		r.Close()
+		panic(e)
+	}
 }
