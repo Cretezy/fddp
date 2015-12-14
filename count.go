@@ -60,6 +60,6 @@ func CountAction(c *cli.Context) {
 func displayCount(stat string, statCount int, c *cli.Context, hasSomeOutput *bool) {
 	if c.Bool(stat) {
 		*hasSomeOutput = true
-		fmt.Println("Data set has", statCount, strings.Join(strings.Split(stat, "-"), " "))
+		fmt.Println("Data set has", statCount, strings.Replace(stat, "-", " ", -1))
 	}
 }
