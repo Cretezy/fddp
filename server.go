@@ -23,13 +23,13 @@ func ServerCommand() cli.Command {
 
 func ServerAction(c *cli.Context) {
 	router := httprouter.New()
-	router.POST("/convert", func(w http.ResponseWriter, r *http.Request) {
+	router.POST("/convert", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		file, _, err := r.FormFile("messages")
 		defer file.Close()
-		WebCheck(w, r, err)
+		WebCheck(w, err)
 
 		b, err := ioutil.ReadAll(file)
-		WebCheck(w, r, err)
+		WebCheck(w, err)
 		fbData := FromHTML(string(b))
 
 		w.Header().Set("Content-type", "application/json")
@@ -51,10 +51,10 @@ func GetAddr() string {
 	}
 }
 
-func WebCheck(w http.ResponseWriter, r *http.Request, e error) {
+func WebCheck(w http.ResponseWriter, e error) {
 	if e != nil {
-		w.Write([]byte(fmt.Errorf("%v", e)))
-		r.Close()
+		fmt.Fprintf(w, "%v", e)
 		panic(e)
 	}
 }
+
