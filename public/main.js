@@ -38,41 +38,54 @@ $(document).ready(function () {
             return PureReplace.switchPage("home");
 
         $("#fddp-whoami").html(pageData.whoami);
-
         var threadHolder = $("#fddp-threads");
+
         var i = 0;
         pageData.threads.forEach(function (thread) {
             i++;
-            var messages = "";
-            thread.messages.forEach(function (message) {
-                messages += E("li", E("strong", message.sender) + ": " + escapeHTML(message.text));
-            });
+
 
             var persons = [];
-            thread.persons.forEach(function(person){
-                if(person!=pageData.whoami) persons.push(person);
+            thread.persons.forEach(function (person) {
+                if (person != pageData.whoami) persons.push(person);
             });
+
             var threadElement = threadHolder.append(
                 E("li",
-                    E("h1", persons.join(" & ") + " (#"  + thread.messages.length + ")", {"class": "fddp-title-" + i}) +
-
-                    E("ul", "", {"class": ["fddp-messages-" + i, "fddp-hidden"]})
+                    E("div",
+                        (
+                            E("span", persons.join(" & "), {style: "font-size: 2em"}) +
+                            E("span", " (" + thread.messages.length + " messages)")
+                        ),
+                        {"class": "fddp-title-" + i}
+                    ) +
+                    E("ul", "", {class: ["fddp-messages-" + i, "fddp-hidden"]})
                 )
             );
+
             // TODO: fix bug that need "i"
             var titleElement = threadElement.find(".fddp-title-" + i);
             var messagesElement = threadElement.find(".fddp-messages-" + i);
             titleElement.click(function () {
+
                 if (messagesElement.hasClass("fddp-hidden")) {
                     messagesElement.removeClass("fddp-hidden");
-                    messagesElement.html(messages);
+                    if (messagesElement.html() == "") {
+                        var messages = "";
+                        thread.messages.forEach(function (message) {
+                            messages += E("li", E("strong", message.sender, {
+                                    class: "tooltip",
+                                    title: message.time
+                                }) + ": " + escapeHTML(message.text));
+                        });
+                        messagesElement.html(messages);
+                    }
                 } else {
                     messagesElement.addClass("fddp-hidden");
-                    messagesElement.html("");
                 }
             });
         });
-        
+
         var save = $("#fddp-save");
         save.html("Click to save");
         save.click(function () {
@@ -88,7 +101,24 @@ $(document).ready(function () {
     }
 
     PureReplace.start();
+
+    var amountScrolled = 300;
+    $('body').prepend('<a href="#" class="back-to-top">Back to Top</a>');
+    $(window).scroll(function () {
+        if ($(window).scrollTop() > amountScrolled) {
+            $('a.back-to-top').fadeIn('slow');
+        } else {
+            $('a.back-to-top').fadeOut('slow');
+        }
+    });
+    $('a.back-to-top').click(function () {
+        $('html, body').animate({
+            scrollTop: 0
+        }, 700);
+        return false;
+    });
 });
+
 // http://stackoverflow.com/a/18197341
 function download(filename, text) {
     var element = document.createElement('a');
