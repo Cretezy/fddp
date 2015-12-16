@@ -75,10 +75,11 @@ $(document).ready(function () {
                         thread.messages.forEach(function (message) {
                             messages += E("li", E("strong", message.sender, {
                                     class: "tooltip",
-                                    title: message.time
+                                    title: moment(message.tile).format('MMMM Do YYYY, h:mm:ss a')
                                 }) + ": " + escapeHTML(message.text));
                         });
                         messagesElement.html(messages);
+                        $('.tooltip').tooltipster();
                     }
                 } else {
                     messagesElement.addClass("fddp-hidden");
