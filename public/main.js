@@ -75,7 +75,7 @@ $(document).ready(function () {
                         thread.messages.forEach(function (message) {
                             messages += E("li", E("strong", message.sender, {
                                     class: "tooltip",
-                                    title: moment(message.tile).format('MMMM Do YYYY, h:mm:ss a')
+                                    title: moment(message.time).format('MMMM Do YYYY, h:mm a')
                                 }) + ": " + escapeHTML(message.text));
                         });
                         messagesElement.html(messages);
