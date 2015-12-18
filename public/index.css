@@ -1,3 +1,7 @@
+.fddp-hidden{
+    display: none;
+}
+
 body {
     margin: 1em;
     padding: 0;
@@ -47,4 +51,5 @@ a.back-to-top {
     -webkit-border-radius: 30px;
     -moz-border-radius: 30px;
     border-radius: 30px;
+    outline: 0;
 }
