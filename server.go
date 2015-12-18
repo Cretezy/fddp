@@ -35,11 +35,11 @@ func ServerAction(c *cli.Context) {
 		w.Header().Set("Content-type", "application/json")
 		w.Write([]byte(ToJSON(fbData, false)))
 	})
-	router.NotFound = http.FileServer(http.Dir("public"))
+	router.ServeFiles("/*filepath", http.Dir("public"))
 
-	compress := handlers.CompressHandler
 	addr := GetAddr()
-	check(http.ListenAndServe(addr, compress(router)))
+
+	check(http.ListenAndServe(addr, handlers.CompressHandler(router)))
 	fmt.Println("Listening on", addr)
 }
 
