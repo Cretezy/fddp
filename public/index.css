@@ -2,42 +2,6 @@
     display: none;
 }
 
-body {
-    margin: 1em;
-    padding: 0;
-    font-size: 100%;
-    font-family: Arial, sans-serif;
-}
-
-h1, h2, h3, h4 {
-    margin: 1em 0 .5em;
-}
-
-h1 {
-    font-size: 2em;
-}
-
-h2 {
-    font-size: 1.5em;
-}
-
-h3 {
-    font-size: 1.2em;
-}
-
-ul, ol {
-    margin: 1em 0;
-    padding-left: 40px;
-}
-
-p, figure {
-    margin: 1em 0;
-}
-
-a img {
-    border: none;
-}
-
 a.back-to-top {
     display: none;
     width: 60px;
@@ -52,4 +16,30 @@ a.back-to-top {
     -moz-border-radius: 30px;
     border-radius: 30px;
     outline: 0;
+}
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
 }

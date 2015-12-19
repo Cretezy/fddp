@@ -1,5 +1,6 @@
 $(document).ready(function () {
     PureReplace.addPageLoadCallback("import", function () {
+        $('input[type=file]').bootstrapFileInput();
         $("#convertForm").submit(function (e) {
             e.preventDefault();
             var form = $(this);
@@ -74,12 +75,12 @@ $(document).ready(function () {
                         var messages = "";
                         thread.messages.forEach(function (message) {
                             messages += E("li", E("strong", message.sender, {
-                                    class: "tooltip",
+                                    class: "sender",
                                     time: message.time
                                 }) + ": " + escapeHTML(message.text));
                         });
                         messagesElement.html(messages);
-                        $('.tooltip').tooltipster({functionInit: function(){
+                        $('.sender').tooltip({title: function(){
                            return moment($(this).attr("time")).format('MMMM Do YYYY, h:mm a')
                         }});
                     }

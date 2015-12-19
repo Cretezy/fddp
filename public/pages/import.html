@@ -1,16 +1,25 @@
-<div>
-    <h1>Convert</h1>
-    <a href="#home">Back to home</a>
-    <br/>
-    <br/>
+<div class="container">
+    <div>
+        <h1>Convert</h1>
+        <a href="#home" class="btn btn-success">Back to home</a>
+        <br/>
+        <br/>
 
-    <form action="/convert" id="convertForm" method="POST" enctype="multipart/form-data">
-        <input type="file" name="messages" accept="text/html">
-        <input type="submit" value="Convert to JSON">
-    </form>
-    <hr/>
-    <form id="loadForm" enctype="multipart/form-data">
-        <input type="file" name="messages" accept="application/json">
-        <input type="submit" value="Load JSON">
-    </form>
+        <form class="form-inline"  action="/convert" id="convertForm" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="messagesHtml">HTML</label>
+                <input type="file" class="form-control" id="messagesHtml" name="messages" accept="text/html">
+
+            </div>
+            <button type="submit" class="btn btn-default">Load from HTML</button>
+        </form>
+
+        <form class="form-inline" id="loadForm" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="messagesJson">JSON</label>
+                <input type="file" class="form-control" id="messagesJson" name="messages" accept="application/json">
+            </div>
+            <button type="submit" class="btn btn-default">Load from HTML</button>
+        </form>
+    </div>
 </div>
