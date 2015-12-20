@@ -1,6 +1,7 @@
 $(document).ready(function () {
     PureReplace.addPageLoadCallback("import", function () {
         $('input[type=file]').bootstrapFileInput();
+
         $("#convertForm").submit(function (e) {
             e.preventDefault();
             var form = $(this);
@@ -25,12 +26,11 @@ $(document).ready(function () {
                 alert('The File APIs are not fully supported in this browser.');
                 return;
             }
-            var form = $(this);
             var reader = new FileReader();
             reader.onload = function () {
                 PureReplace.switchPage("show", null, JSON.parse(window.atob(reader.result.split(",")[1])));
             };
-            reader.readAsDataURL(form.find('[name="messages"]')[0].files[0]);
+            reader.readAsDataURL($(this).find('[name="messages"]')[0].files[0]);
         });
     });
 
@@ -44,7 +44,6 @@ $(document).ready(function () {
         var i = 0;
         pageData.threads.forEach(function (thread) {
             i++;
-
 
             var persons = [];
             thread.persons.forEach(function (person) {
@@ -68,7 +67,6 @@ $(document).ready(function () {
             var titleElement = threadElement.find(".fddp-title-" + i);
             var messagesElement = threadElement.find(".fddp-messages-" + i);
             titleElement.click(function () {
-
                 if (messagesElement.hasClass("fddp-hidden")) {
                     messagesElement.removeClass("fddp-hidden");
                     if (messagesElement.html() == "") {
@@ -90,9 +88,7 @@ $(document).ready(function () {
             });
         });
 
-        var save = $("#fddp-save");
-        save.html("Click to save");
-        save.click(function () {
+        $("#fddp-save").click(function () {
             download("messages.json", JSON.stringify(pageData));
         })
     });
