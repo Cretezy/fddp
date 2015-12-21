@@ -55,7 +55,7 @@ $(document).ready(function () {
                     E("div",
                         (
                             E("span", persons.join(" & "), {style: "font-size: 2em"}) +
-                            E("span", " (" + thread.messages.length + " messages)")
+                            E("span", " (" + numberWithCommas(thread.messages.length) + " messages)")
                         ),
                         {"class": "fddp-title-" + i}
                     ) +
@@ -132,4 +132,8 @@ function download(filename, text) {
     element.click();
 
     document.body.removeChild(element);
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
