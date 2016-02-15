@@ -6,7 +6,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/gin-gonic/gin"
+	"github.com/Cretezy/fddp/Godeps/_workspace/src/github.com/gin-gonic/gin"
 )
 
 type ServeFileSystem interface {

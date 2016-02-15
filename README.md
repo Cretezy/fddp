@@ -11,7 +11,7 @@ it is at the end under "Download a copy of your Facebook data", then follow the 
 
 Once you have this zip file, open it and place the `messages.htm` inside the `personal` folder  
 
-### [Samples](https://github.com/CraftThatBlock/fddp/tree/master/samples)
+### [Samples](https://github.com/Cretezy/fddp/tree/master/samples)
 I have crafted samples for you to use to test.
 These are identical to how Facebook's archives distribute their `messages.htm`.
 
@@ -22,7 +22,7 @@ These are identical to how Facebook's archives distribute their `messages.htm`.
 
 ### Install
 - Setup your `$GOPATH`
-- `git clone https://github.com/CraftThatBlock/fddp.git && cd fddp && go build`
+- `git clone https://github.com/Cretezy/fddp.git && cd fddp && go build`
 - Enjoy! Check if everything works with `./fddp`. You must be in the `fddp` directory to run commands.
 
 ## Usage
@@ -46,7 +46,7 @@ You must convert your HTML message file to JSON before doing anything with it. I
 This will turn `personal/messages.htm` to JSON format and save it (under `personal/messages.json`).
 
 You can use `-i` (or `--indent`) to indent (pretty print). This is not recommended on big data set as it adds useless storage bulk
-(see [Example File Size](https://github.com/CraftThatBlock/fddp#example-file-size) for increase).
+(see [Example File Size](https://github.com/Cretezy/fddp#example-file-size) for increase).
 
 
 #### Count

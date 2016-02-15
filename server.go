@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
-	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/gorilla/handlers"
-	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/julienschmidt/httprouter"
+	"github.com/Cretezy/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
+	"github.com/Cretezy/fddp/Godeps/_workspace/src/github.com/gorilla/handlers"
+	"github.com/Cretezy/fddp/Godeps/_workspace/src/github.com/julienschmidt/httprouter"
 	"io/ioutil"
 	"net/http"
 	"os"

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
-	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
+	"github.com/Cretezy/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
 )
 
 func CountCommand() cli.Command {

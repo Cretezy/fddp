@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
+	"github.com/Cretezy/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
 	"os"
 	"time"
 )

@@ -16,7 +16,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/golang.org/x/net/html"
+	"github.com/Cretezy/fddp/Godeps/_workspace/src/golang.org/x/net/html"
 	"golang.org/x/text/encoding"
 	"golang.org/x/text/encoding/charmap"
 	"golang.org/x/text/transform"

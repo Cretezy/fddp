@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/golang.org/x/net/html"
+	"github.com/Cretezy/fddp/Godeps/_workspace/src/golang.org/x/net/html"
 )
 
 // Document represents an HTML document to be manipulated. Unlike jQuery, which

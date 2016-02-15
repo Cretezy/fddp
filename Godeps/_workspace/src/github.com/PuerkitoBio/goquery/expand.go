@@ -1,8 +1,8 @@
 package goquery
 
 import (
-	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/andybalholm/cascadia"
-	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/golang.org/x/net/html"
+	"github.com/Cretezy/fddp/Godeps/_workspace/src/github.com/andybalholm/cascadia"
+	"github.com/Cretezy/fddp/Godeps/_workspace/src/golang.org/x/net/html"
 )
 
 // Add adds the selector string's matching nodes to those in the current

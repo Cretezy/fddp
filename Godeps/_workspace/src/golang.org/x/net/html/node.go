@@ -5,7 +5,7 @@
 package html
 
 import (
-	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/golang.org/x/net/html/atom"
+	"github.com/Cretezy/fddp/Godeps/_workspace/src/golang.org/x/net/html/atom"
 )
 
 // A NodeType is the type of a Node.

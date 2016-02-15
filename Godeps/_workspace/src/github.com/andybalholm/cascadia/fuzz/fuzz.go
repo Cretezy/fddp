@@ -1,6 +1,6 @@
 package fuzz
 
-import "github.com/CraftThatBlock/fddp/Godeps/_workspace/src/github.com/andybalholm/cascadia"
+import "github.com/Cretezy/fddp/Godeps/_workspace/src/github.com/andybalholm/cascadia"
 
 func Fuzz(data []byte) int {
 	sel, err := cascadia.Compile(string(data))

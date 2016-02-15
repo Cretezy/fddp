@@ -1,7 +1,7 @@
 package goquery
 
 import (
-	"github.com/CraftThatBlock/fddp/Godeps/_workspace/src/golang.org/x/net/html"
+	"github.com/Cretezy/fddp/Godeps/_workspace/src/golang.org/x/net/html"
 )
 
 // First reduces the set of matched elements to the first in the set.
