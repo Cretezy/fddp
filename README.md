@@ -1,4 +1,4 @@
-# fddp: Facebook Downloaded Data Processor [![Build Status](https://travis-ci.org/CraftThatBlock/fddp.svg)](https://travis-ci.org/CraftThatBlock/fddp)
+# fddp: Facebook Downloaded Data Processor [![Build Status](https://travis-ci.org/Cretezy/fddp.svg)](https://travis-ci.org/Cretezy/fddp)
 
 Facebook allows you to download "a copy of what you've shared on Facebook".
 This includes a lot of Facebook data, including Messenger (chat) messages (what we are interested in)
