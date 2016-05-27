@@ -1,11 +1,12 @@
 {
 	"ImportPath": "github.com/Cretezy/fddp",
-	"GoVersion": "go1.5.1",
+	"GoVersion": "go1.6",
+	"GodepVersion": "v71",
 	"Deps": [
 		{
 			"ImportPath": "github.com/PuerkitoBio/goquery",
-			"Comment": "v0.3.2-80-g417cce8",
-			"Rev": "417cce822c7b9a379df5824be95228d177c5698b"
+			"Comment": "v0.3.2-87-gaeecb06",
+			"Rev": "aeecb06b1e04a72e7d3312468c5b92f6bb2f3459"
 		},
 		{
 			"ImportPath": "github.com/andybalholm/cascadia",
@@ -13,21 +14,26 @@
 		},
 		{
 			"ImportPath": "github.com/codegangsta/cli",
-			"Comment": "1.2.0-179-g0302d39",
-			"Rev": "0302d3914d2a6ad61404584cdae6e6dbc9c03599"
+			"Comment": "v1.15.0",
+			"Rev": "879acab1d035606b10e5fdd8cd3d86f39ca7a7aa"
 		},
 		{
 			"ImportPath": "github.com/gorilla/handlers",
-			"Rev": "1af6d56d7cd39d982856bc0cee11142baf392c52"
+			"Comment": "v1.1-6-g66e6c6f",
+			"Rev": "66e6c6f01d8da976ee113437745ca029c2b585a6"
 		},
 		{
 			"ImportPath": "github.com/julienschmidt/httprouter",
-			"Comment": "v1.1-12-gf30ab90",
-			"Rev": "f30ab90cccbd5171771d26b6557d3c2f49e047a6"
+			"Comment": "v1.1-29-g77366a4",
+			"Rev": "77366a47451a56bb3ba682481eed85b64fea14e8"
 		},
 		{
 			"ImportPath": "golang.org/x/net/html",
-			"Rev": "2cba614e8ff920c60240d2677bc019af32ee04e5"
+			"Rev": "7e42c0e1329bb108f7376a7618a2871ab90f1c4d"
+		},
+		{
+			"ImportPath": "golang.org/x/net/html/atom",
+			"Rev": "7e42c0e1329bb108f7376a7618a2871ab90f1c4d"
 		}
 	]
 }

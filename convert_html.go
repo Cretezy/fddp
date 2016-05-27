@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/Cretezy/fddp/Godeps/_workspace/src/github.com/PuerkitoBio/goquery"
+	"github.com/PuerkitoBio/goquery"
 	"sort"
 	"strings"
 	"time"

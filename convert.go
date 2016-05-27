@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/Cretezy/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
+	"github.com/codegangsta/cli"
 	"io/ioutil"
 )
 

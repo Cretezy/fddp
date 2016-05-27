@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/Cretezy/fddp/Godeps/_workspace/src/github.com/codegangsta/cli"
+	"github.com/codegangsta/cli"
 )
 
 func Commands() []cli.Command {
