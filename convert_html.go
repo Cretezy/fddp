@@ -27,7 +27,8 @@ func FromHTML(html string) FacebookData {
 	whoami := doc.Find("h1").Text()
 
 	// Format needs to equal: Mon Jan 2 15:04:05 MST 2006
-	format := "Monday, 2 January 2006 at 15:04 MST"
+	// Facebook: Sunday, July 28, 2013 at 4:19pm EDT
+	format := "Monday, January 2, 2006 at 3:04pm MST"
 
 	/*
 		Note:
