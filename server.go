@@ -39,8 +39,8 @@ func ServerAction(c *cli.Context) {
 
 	addr := GetAddr()
 
-	check(http.ListenAndServe(addr, handlers.CompressHandler(router)))
 	fmt.Println("Listening on", addr)
+	check(http.ListenAndServe(addr, handlers.CompressHandler(router)))
 }
 
 func GetAddr() string {

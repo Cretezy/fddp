@@ -3,6 +3,8 @@
 ## Binary
 /fddp
 /gin-bin
+/vendor
+!/vendor/static.go
 
 
 # Created by https://www.gitignore.io/api/intellij,go,linux,osx,windows
