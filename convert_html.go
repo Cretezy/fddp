@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/PuerkitoBio/goquery"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -28,7 +29,7 @@ func FromHTML(html string) FacebookData {
 
 	// Format needs to equal: Mon Jan 2 15:04:05 MST 2006
 	// Facebook: Sunday, July 28, 2013 at 4:19pm EDT
-	format := "Monday, January 2, 2006 at 3:04pm MST"
+	format := "Monday, January 2, 2006 at 3:04pm"
 
 	/*
 		Note:
@@ -55,8 +56,15 @@ func FromHTML(html string) FacebookData {
 
 			if nodeType == "div" {
 				sender = someSelector.Find(".message_header").Find(".user").Text()
-				sentTime, err = time.Parse(format, someSelector.Find(".message_header").Find(".meta").Text())
+				timeText := strings.Split(someSelector.Find(".message_header").Find(".meta").Text(),
+					" UTC")
+				sentTime, err = time.Parse(format, timeText[0])
 				check(err)
+				if timeText[1] != "" {
+					timeZone, err := strconv.Atoi(timeText[1])
+					sentTime.Add(time.Hour * time.Duration(timeZone))
+					check(err)
+				}
 			} else if nodeType == "p" {
 				message := Message{Sender: sender, Text: someSelector.Text(), Time: sentTime}
 				messages = append(messages, message)

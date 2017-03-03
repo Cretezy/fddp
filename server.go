@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/codegangsta/cli"
 	"github.com/gorilla/handlers"
 	"github.com/julienschmidt/httprouter"
+	"gopkg.in/urfave/cli.v1"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -39,7 +39,7 @@ func ServerAction(c *cli.Context) {
 
 	addr := GetAddr()
 
-	fmt.Println("Listening on", addr)
+	fmt.Println("Listening on http://localhost" + addr)
 	check(http.ListenAndServe(addr, handlers.CompressHandler(router)))
 }
 
@@ -57,4 +57,3 @@ func WebCheck(w http.ResponseWriter, e error) {
 		panic(e)
 	}
 }
-
