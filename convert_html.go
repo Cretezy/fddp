@@ -29,7 +29,7 @@ func FromHTML(html string) FacebookData {
 
 	// Format needs to equal: Mon Jan 2 15:04:05 MST 2006
 	// Facebook: Sunday, July 28, 2013 at 4:19pm EDT
-	format := "Monday, January 2, 2006 at 3:04pm"
+	format := "Monday, January 2, 2006 at 3:04pm MST"
 
 	/*
 		Note:
@@ -60,7 +60,7 @@ func FromHTML(html string) FacebookData {
 					" UTC")
 				sentTime, err = time.Parse(format, timeText[0])
 				check(err)
-				if timeText[1] != "" {
+				if len(timeText) >= 2 && timeText[1] != "" {
 					timeZone, err := strconv.Atoi(timeText[1])
 					sentTime.Add(time.Hour * time.Duration(timeZone))
 					check(err)
